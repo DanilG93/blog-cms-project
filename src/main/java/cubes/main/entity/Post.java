@@ -184,11 +184,5 @@ public class Post {
 		this.comments = comments;
 	}
 
-	@Override
-	public String toString() {
-		return "Post [id=" + id + ", title=" + title + ", description=" + description + ", content=" + content
-				+ ", image=" + image + ", createdAt=" + createdAt + ", viewCount=" + viewCount + ", important="
-				+ important + ", enabled=" + enabled + ", seoUrl=" + seoUrl + "]";
-	}
 
 }
