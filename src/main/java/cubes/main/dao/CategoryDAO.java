@@ -14,5 +14,11 @@ public interface CategoryDAO {
 	public Category getCategoryById(Integer id);
 
 	public void deleteCategory(Integer id);
+	
+	public Integer getMaxDisplayOrder();
+	
+	public Category getCategoryByUrlSeo(String title);
+	
+	public void shiftDisplayOrders(int deletedOrder);
 
 }

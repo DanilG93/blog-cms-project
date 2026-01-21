@@ -12,7 +12,7 @@ import cubes.main.service.ContactMessageService;
 
 @Service
 public class ContactMessageServiceImpl implements ContactMessageService {
-	
+
 	@Autowired
 	private ContactMessageDAO contactMessageDAO;
 
@@ -26,7 +26,7 @@ public class ContactMessageServiceImpl implements ContactMessageService {
 	@Transactional
 	public void saveOrUpdateContactMessage(ContactMessage contactMessage) {
 		contactMessageDAO.saveOrUpdateContactMessage(contactMessage);
-		
+
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class ContactMessageServiceImpl implements ContactMessageService {
 	@Transactional
 	public void deleteContactMessage(Integer id) {
 		contactMessageDAO.deleteContactMessage(id);
-		
+
 	}
 
 }

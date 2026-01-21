@@ -21,12 +21,11 @@ public class CategoryDAOImpl implements CategoryDAO {
 		this.sessionFactory = sessionFactory;
 	}
 
-	
 	@Override
 	public List<Category> getCategories() {
 
-		List<Category> categoyList = sessionFactory.getCurrentSession().createQuery("from Category", Category.class)
-				.getResultList();
+		List<Category> categoyList = sessionFactory.getCurrentSession()
+				.createQuery("from Category order by displayOrder", Category.class).getResultList();
 
 		return categoyList;
 	}
@@ -34,7 +33,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public void saveOrUpdateCategory(Category category) {
 
-		sessionFactory.getCurrentSession().saveOrUpdate(category);
+		sessionFactory.getCurrentSession().merge(category);
 
 	}
 
@@ -53,6 +52,42 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 		Query<?> query = session.createQuery("delete from Category where id = :categoryId");
 		query.setParameter("categoryId", id);
+
+		query.executeUpdate();
+
+	}
+
+	@Override
+	public Integer getMaxDisplayOrder() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Integer> query = session.createQuery("SELECT MAX(c.displayOrder) FROM Category c", Integer.class);
+
+		return query.getSingleResult();
+	}
+
+	@Override
+	public Category getCategoryByUrlSeo(String title) {
+
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Category> seoUrl = session.createQuery("FROM Category c WHERE c.seoUrl = :seoUrl", Category.class);
+
+		seoUrl.setParameter("seoUrl", title);
+		return seoUrl.uniqueResult();
+
+	}
+
+	@Override
+	public void shiftDisplayOrders(int deletedOrder) {
+		Session session = sessionFactory.getCurrentSession();
+
+		
+		String hql = "UPDATE Category c SET c.displayOrder = c.displayOrder - 1 "
+				+ "WHERE c.displayOrder > :deletedOrder";
+
+		Query<?> query = session.createQuery(hql);
+		query.setParameter("deletedOrder", deletedOrder);
 
 		query.executeUpdate();
 
