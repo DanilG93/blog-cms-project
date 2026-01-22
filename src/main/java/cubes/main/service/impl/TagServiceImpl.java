@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cubes.main.dao.TagDAO;
-import cubes.main.dao.util.MyUtil;
 import cubes.main.entity.Tag;
 import cubes.main.service.TagService;
+import cubes.main.util.MyUtil;
 
 @Service
 public class TagServiceImpl implements TagService {

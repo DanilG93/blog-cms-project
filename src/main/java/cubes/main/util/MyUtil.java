@@ -1,4 +1,4 @@
-package cubes.main.dao.util;
+package cubes.main.util;
 
 public class MyUtil {
 

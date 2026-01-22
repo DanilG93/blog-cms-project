@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cubes.main.dao.CategoryDAO;
-import cubes.main.dao.util.MyUtil;
 import cubes.main.entity.Category;
 import cubes.main.service.CategoryService;
+import cubes.main.util.MyUtil;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
