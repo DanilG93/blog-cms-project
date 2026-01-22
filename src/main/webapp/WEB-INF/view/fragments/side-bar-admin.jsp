@@ -85,7 +85,7 @@
                   </li>
 
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/tags" class="nav-link">
                         <i class="fas fa-tags nav-icon"></i>
                         <p>Tags List</p>
                      </a>

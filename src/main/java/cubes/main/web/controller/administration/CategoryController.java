@@ -53,32 +53,40 @@ public class CategoryController {
 	}
 
 	@PostMapping("/save")
-	public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		
+	public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+
 		if (bindingResult.hasErrors()) {
 			return "administration/category/category-form";
 		}
-		
+
 		categoryService.saveOrUpdateCategory(category);
-		
-		redirectAttributes.addFlashAttribute("message", "You have successfully saved a category: " + category.getName());
+
+		redirectAttributes.addFlashAttribute("message",
+				"You have successfully saved a category: " + category.getName());
 
 		return "redirect:/administration/categories";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String editCategory(@PathVariable Integer id, Model model) {
-		
+
 		model.addAttribute("category", categoryService.getCategoryById(id));
-		
+
 		return "administration/category/category-form";
 	}
-	
+
 	@PostMapping("/delete")
-	public String deleteCategory(@RequestParam Integer id) {
-		
-		categoryService.deleteCategory(id);
-		
+	public String deleteCategory(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
+
+		try {
+			categoryService.deleteCategory(id);
+			redirectAttributes.addFlashAttribute("message", "Category successfully deleted.");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("errorMessage",
+					"ERROR: You cannot delete this category because there are posts related to it! Delete or move those posts first.");
+		}
+
 		return "redirect:/administration/categories";
 	}
 

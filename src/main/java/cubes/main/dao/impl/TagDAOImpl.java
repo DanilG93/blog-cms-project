@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import cubes.main.dao.TagDAO;
-
 import cubes.main.entity.Tag;
 
 @Repository
@@ -31,7 +30,7 @@ public class TagDAOImpl implements TagDAO {
 
 	@Override
 	public void saveOrUpdateTag(Tag tag) {
-		sessionFactory.getCurrentSession().saveOrUpdate(tag);
+		sessionFactory.getCurrentSession().merge(tag);
 
 	}
 
@@ -51,6 +50,16 @@ public class TagDAOImpl implements TagDAO {
 
 		query.executeUpdate();
 
+	}
+
+	@Override
+	public Tag getTagByUrlSeo(String title) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Tag> seoUrl = session.createQuery("FROM Tag t WHERE t.seoUrl = :seoUrl", Tag.class);
+
+		seoUrl.setParameter("seoUrl", title);
+		return seoUrl.uniqueResult();
 	}
 
 }

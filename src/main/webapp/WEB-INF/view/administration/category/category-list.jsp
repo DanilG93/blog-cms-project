@@ -84,6 +84,10 @@
                               <c:if test="${not empty message}">
                                  <div class="alert alert-success">${message}</div>
                               </c:if>
+                              
+                              <c:if test="${not empty errorMessage}">
+                                 <div class="alert alert-danger">${errorMessage}</div>
+                              </c:if>
 
                               <thead>
                                  <tr class="text-center">
@@ -105,9 +109,7 @@
                                           <c:choose>
 
                                              <c:when test="${empty isSorting}">
-                                                <div
-                                                   style="display: inline-block; min-width: 35px; padding: .25rem .5rem; font-size: .875rem; line-height: 1.5; text-align: center; vertical-align: middle; font-weight: bold;">
-                                                   ${category.displayOrder}</div>
+                                                <strong class="align-middle">${category.displayOrder}</strong>
                                              </c:when>
 
 
