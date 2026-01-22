@@ -263,21 +263,6 @@
       <!-- Main Footer -->
       <jsp:include page="../../fragments/footer-admin.jsp" />
 
-      <style>
-.custom-button {
-	color: inherit !important;
-	text-transform: uppercase;
-	font-size: 1em;
-	text-decoration: none !important;
-	margin-top: 20px;
-	font-weight: 300;
-	display: inline-block;
-	/* Dodato da bi margina i stilovi pravilno radili */
-	border: none;
-	background: none;
-	cursor: pointer;
-}
-</style>
 
    </div>
 </body>
