@@ -24,7 +24,7 @@ public class SliderDAOImpl implements SliderDAO {
 	@Override
 	public List<Slider> getSliders() {
 
-		List<Slider> sliderList = sessionFactory.getCurrentSession().createQuery("from Slider", Slider.class)
+		List<Slider> sliderList = sessionFactory.getCurrentSession().createQuery("from Slider order by displayOrder", Slider.class)
 				.getResultList();
 
 		return sliderList;
@@ -32,13 +32,13 @@ public class SliderDAOImpl implements SliderDAO {
 
 	@Override
 	public void saveOrUpdateSlider(Slider slider) {
-		sessionFactory.getCurrentSession().saveOrUpdate(slider);
+		sessionFactory.getCurrentSession().merge(slider);
 
 	}
 
 	@Override
 	public Slider getSliderById(Integer id) {
-		
+
 		Slider slider = sessionFactory.getCurrentSession().get(Slider.class, id);
 
 		return slider;
@@ -46,11 +46,34 @@ public class SliderDAOImpl implements SliderDAO {
 
 	@Override
 	public void deleteSlider(Integer id) {
-		
+
 		Session session = sessionFactory.getCurrentSession();
 
 		Query<?> query = session.createQuery("delete from Slider where id = :cliderId");
 		query.setParameter("cliderId", id);
+
+		query.executeUpdate();
+
+	}
+
+	@Override
+	public Integer getMaxDisplayOrder() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Integer> query = session.createQuery("SELECT MAX(s.displayOrder) FROM Slider s", Integer.class);
+
+		return query.getSingleResult();
+	}
+
+	@Override
+	public void shiftDisplayOrders(int deletedOrder) {
+		Session session = sessionFactory.getCurrentSession();
+
+		String hql = "UPDATE Slider s SET s.displayOrder = s.displayOrder - 1 "
+				+ "WHERE s.displayOrder > :deletedOrder";
+
+		Query<?> query = session.createQuery(hql);
+		query.setParameter("deletedOrder", deletedOrder);
 
 		query.executeUpdate();
 

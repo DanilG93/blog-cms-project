@@ -24,7 +24,7 @@
             <div class="container-fluid">
                <div class="row mb-2">
                   <div class="col-sm-6">
-                     <h1>Add Categories</h1>
+                     <h1>Add Category</h1>
                   </div>
                   <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
@@ -32,9 +32,9 @@
                            <a href="#">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                           <a href="#">Categories</a>
+                           <a href="${pageContext.request.contextPath}/administration/categories">Categories</a>
                         </li>
-                        <li class="breadcrumb-item active">Add</li>
+                        <li class="breadcrumb-item active">${empty category.id ? 'Add Category' : 'Edit Category'}</li>
                      </ol>
                   </div>
                </div>

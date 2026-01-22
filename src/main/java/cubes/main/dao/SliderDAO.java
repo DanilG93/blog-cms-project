@@ -13,4 +13,8 @@ public interface SliderDAO {
 	public Slider getSliderById(Integer id);
 
 	public void deleteSlider(Integer id);
+	
+	public Integer getMaxDisplayOrder();
+	
+	public void shiftDisplayOrders(int deletedOrder);
 }

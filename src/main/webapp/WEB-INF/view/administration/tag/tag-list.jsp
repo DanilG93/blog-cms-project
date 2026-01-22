@@ -25,6 +25,28 @@
                   <div class="col-sm-6">
                      <h1>Tags Management</h1>
                   </div>
+
+                  <div class="col-sm-6">
+                     <ol class="breadcrumb float-sm-right" id="breadcrumb-list">
+                        <li class="breadcrumb-item">
+                           <a href="#">Home</a>
+                        </li>
+                        <c:choose>
+
+                           <c:when test="${tag.id > 0}">
+                              <li class="breadcrumb-item">
+                                 <a href="${pageContext.request.contextPath}/administration/tags">Tags</a>
+                              </li>
+                              <li class="breadcrumb-item active">Edit</li>
+                           </c:when>
+
+                           <c:otherwise>
+                              <li class="breadcrumb-item active" id="breadcrumb-tags-label">Tags</li>
+                           </c:otherwise>
+                        </c:choose>
+
+                     </ol>
+                  </div>
                </div>
             </div>
          </section>

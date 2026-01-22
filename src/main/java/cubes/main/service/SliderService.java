@@ -13,5 +13,9 @@ public interface SliderService {
 	public Slider getSliderById(Integer id);
 
 	public void deleteSlider(Integer id);
+	
+	public void changeSliderOrder(int id, String direction);
+	
+	public void toggleSliderStatus(int id);
 
 }

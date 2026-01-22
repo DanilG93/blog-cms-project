@@ -55,5 +55,18 @@
 		}
 
 		document.getElementById('tagName').focus();
+
+		var tagsLabel = document.getElementById('breadcrumb-tags-label');
+
+		if (tagsLabel) {
+
+			tagsLabel.classList.remove('active');
+
+			var newLi = document.createElement('li');
+			newLi.className = 'breadcrumb-item active';
+			newLi.innerText = 'Add';
+
+			document.getElementById('breadcrumb-list').appendChild(newLi);
+		}
 	}
 </script>

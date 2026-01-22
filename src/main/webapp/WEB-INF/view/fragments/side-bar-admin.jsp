@@ -31,15 +31,16 @@
                      Slider Management <i class="right fas fa-angle-left"></i>
                   </p>
                </a>
+               
                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/sliders" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>All Slides</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/sliders/add" class="nav-link">
                         <i class="fas fa-plus nav-icon text-success"></i>
                         <p>Add New Slide</p>
                      </a>

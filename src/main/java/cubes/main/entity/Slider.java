@@ -24,9 +24,9 @@ public class Slider {
 	@Column(name = "button_url")
 	private String buttonUrl;
 	@Column(name = "display_order")
-	private String displayOrder;
+	private Integer displayOrder;
 	@Column
-	private String enabled;
+	private boolean enabled;
 
 	public Slider() {
 
@@ -72,19 +72,19 @@ public class Slider {
 		this.buttonUrl = buttonUrl;
 	}
 
-	public String getDisplayOrder() {
+	public Integer getDisplayOrder() {
 		return displayOrder;
 	}
 
-	public void setDisplayOrder(String displayOrder) {
+	public void setDisplayOrder(Integer displayOrder) {
 		this.displayOrder = displayOrder;
 	}
 
-	public String getEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(String enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 
