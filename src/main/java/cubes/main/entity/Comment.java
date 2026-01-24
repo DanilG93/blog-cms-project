@@ -1,6 +1,7 @@
 package cubes.main.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,8 +26,11 @@ public class Comment {
 	private String email;
 	@Column
 	private String content;
-	@Column
+	@Column(columnDefinition = "TINYINT(1) DEFAULT 1")
 	private boolean enabled;
+
+	@Column(name = "is_read", columnDefinition = "TINYINT(1) DEFAULT 0")
+	private boolean isRead;
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
@@ -70,12 +74,20 @@ public class Comment {
 		this.content = content;
 	}
 
-	public boolean isEnabled() {
+	public boolean getIsEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(boolean enabled) {
+	public void setIsEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public boolean getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(boolean isRead) {
+		this.isRead = isRead;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -94,10 +106,13 @@ public class Comment {
 		this.post = post;
 	}
 
-	@Override
-	public String toString() {
-		return "Comment [id=" + id + ", name=" + name + ", email=" + email + ", content=" + content + ", enabled="
-				+ enabled + ", createdAt=" + createdAt + "]";
+	public String getDateFormatted() {
+		if (this.createdAt == null)
+			return "";
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy");
+
+		return this.createdAt.format(formatter);
 	}
 
 }

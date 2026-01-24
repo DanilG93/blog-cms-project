@@ -23,8 +23,8 @@ public class CommentDAOImpl implements CommentDAO {
 
 	@Override
 	public List<Comment> getComments() {
-		List<Comment> commentList = sessionFactory.getCurrentSession().createQuery("from Comment", Comment.class)
-				.getResultList();
+		List<Comment> commentList = sessionFactory.getCurrentSession()
+				.createQuery("from Comment c order by c.createdAt desc", Comment.class).getResultList();
 
 		return commentList;
 	}
@@ -51,6 +51,38 @@ public class CommentDAOImpl implements CommentDAO {
 
 		query.executeUpdate();
 
+	}
+
+	@Override
+	public List<Comment> getCommentsByPostId(Integer postId) {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Comment> query = session
+				.createQuery("FROM Comment c WHERE c.post.id = :thePostId ORDER BY c.createdAt DESC", Comment.class);
+		query.setParameter("thePostId", postId);
+
+		return query.getResultList();
+	}
+
+	
+	@Override
+	public Long getUnreadCommentCount() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Long> query = session
+				.createQuery("SELECT COUNT(c) FROM Comment c WHERE isRead = false", Long.class);
+		
+		return query.getSingleResult();
+	}
+
+	@Override
+	public void markAllAsRead() {
+		Session session = sessionFactory.getCurrentSession();
+	    
+	  
+	    Query<?> query = session.createQuery("UPDATE Comment c SET c.isRead = true WHERE c.isRead = false");
+	    
+	    query.executeUpdate();
 	}
 
 }

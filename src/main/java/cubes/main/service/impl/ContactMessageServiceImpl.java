@@ -42,4 +42,20 @@ public class ContactMessageServiceImpl implements ContactMessageService {
 
 	}
 
+	@Override
+	@Transactional
+	public Long getUnreadContactMessageCount() {
+
+		return contactMessageDAO.getUnreadContactMessageCount();
+	}
+
+	@Override
+	@Transactional
+	public boolean hasUnreadContactMessage() {
+		if (getUnreadContactMessageCount() > 0) {
+			return true;
+		}
+		return false;
+	}
+
 }

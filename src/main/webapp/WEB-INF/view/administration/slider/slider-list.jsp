@@ -93,7 +93,7 @@
                                  <tr class="text-center">
                                     <th style="width: 5%">Order</th>
                                     <th style="width: 15%;">Title</th>
-                                    <th>Image</th>
+                                    <th>Background Image</th>
                                     <th style="width: 10%">Button Text</th>
                                     <th>Button Link</th>
                                     <th style="width: 5%">Enabled</th>
@@ -235,12 +235,16 @@
                                        <!-- /.modal-dialog -->
                                     </div>
                                  </c:forEach>
+
+
+
+                                 <!-- /.card -->
+
+
                               </tbody>
 
                            </table>
 
-                           <!-- /.card-body -->
-                           <div class="card-footer clearfix"></div>
 
                         </div>
                         <!-- /.col -->

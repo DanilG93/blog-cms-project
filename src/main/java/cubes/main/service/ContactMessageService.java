@@ -14,4 +14,8 @@ public interface ContactMessageService {
 
 	public void deleteContactMessage(Integer id);
 	
+	public Long getUnreadContactMessageCount();
+	
+	public boolean hasUnreadContactMessage();
+	
 }

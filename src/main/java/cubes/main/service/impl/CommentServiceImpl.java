@@ -42,4 +42,33 @@ public class CommentServiceImpl implements CommentService {
 
 	}
 
+	@Override
+	@Transactional
+	public List<Comment> getCommentsByPostId(Integer postId) {
+
+		return commentDAO.getCommentsByPostId(postId);
+	}
+
+	@Override
+	@Transactional
+	public Long getUnreadCommentCount() {
+		return commentDAO.getUnreadCommentCount();
+	}
+
+	@Override
+	@Transactional
+	public boolean hasUnreadComment() {
+		if (getUnreadCommentCount() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	@Transactional
+	public void markAllAsRead() {
+		commentDAO.markAllAsRead();
+		
+	}
+
 }

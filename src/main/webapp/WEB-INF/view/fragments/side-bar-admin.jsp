@@ -31,7 +31,7 @@
                      Slider Management <i class="right fas fa-angle-left"></i>
                   </p>
                </a>
-               
+
                <ul class="nav nav-treeview">
                   <li class="nav-item">
                      <a href="${pageContext.request.contextPath}/administration/sliders" class="nav-link">
@@ -100,13 +100,27 @@
                   <i class="nav-icon fas fa-comments text-info"></i>
                   <p>
                      Interaction <i class="right fas fa-angle-left"></i>
+                     <c:if test="${hasUnread}">
+                        <span class="right badge badge-danger">New</span>
+                     </c:if>
                   </p>
+
+
                </a>
                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
-                        <i class="far fa-comment nav-icon"></i>
-                        <p>Comments</p>
+
+                     <a href="${pageContext.request.contextPath}/administration/comments" class="nav-link">
+                        <i class="far fa-comment nav-icon"> </i>
+
+                        <p>
+                           Comments
+
+                           <c:if test="${commentCount > 0}">
+                              <span class="badge badge-info right">${commentCount}</span>
+                           </c:if>
+                        </p>
+
                      </a>
                   </li>
                   <li class="nav-item">

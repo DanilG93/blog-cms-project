@@ -13,4 +13,10 @@ public interface CommentDAO {
 	public Comment getCommentById(Integer id);
 
 	public void deleteComment(Integer id);
+
+	public List<Comment> getCommentsByPostId(Integer postId);
+
+	public Long getUnreadCommentCount();
+	
+	public void markAllAsRead();
 }

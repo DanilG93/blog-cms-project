@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cubes.main.dao.SliderDAO;
-import cubes.main.entity.Category;
 import cubes.main.entity.Slider;
 import cubes.main.service.SliderService;
 
@@ -55,10 +54,9 @@ public class SliderServiceImpl implements SliderService {
 	@Override
 	@Transactional
 	public void deleteSlider(Integer id) {
-		
+
 		Slider slider = sliderDAO.getSliderById(id);
-		
-		
+
 		if (slider != null) {
 
 			int orderToDelete = slider.getDisplayOrder();

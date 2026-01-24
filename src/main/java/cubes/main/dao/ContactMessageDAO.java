@@ -14,4 +14,5 @@ public interface ContactMessageDAO {
 
 	public void deleteContactMessage(Integer id);
 
+	public Long getUnreadContactMessageCount();
 }

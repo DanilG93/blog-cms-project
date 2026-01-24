@@ -23,7 +23,7 @@ public class ContactMessage {
 	private String email;
 	@Column(columnDefinition = "TEXT")
 	private String message;
-	@Column(name = "is_read")
+	@Column(name = "is_read", columnDefinition = "TINYINT(1) DEFAULT 0")
 	private boolean isRead;
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;

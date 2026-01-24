@@ -54,4 +54,16 @@ public class ContactMessageDAOImpl implements ContactMessageDAO {
 
 	}
 
+	@Override
+	public Long getUnreadContactMessageCount() {
+		
+			Session session = sessionFactory.getCurrentSession();
+
+			Query<Long> query = session
+					.createQuery("SELECT COUNT(c) FROM ContactMessage c WHERE isRead = false", Long.class);
+			
+			return query.getSingleResult();
+		
+	}
+
 }
