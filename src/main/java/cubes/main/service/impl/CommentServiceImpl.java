@@ -68,7 +68,19 @@ public class CommentServiceImpl implements CommentService {
 	@Transactional
 	public void markAllAsRead() {
 		commentDAO.markAllAsRead();
-		
+
+	}
+
+	@Override
+	@Transactional
+	public void toggleCommentStatus(Integer id) {
+
+		Comment comment = commentDAO.getCommentById(id);
+
+		comment.setIsEnabled(!comment.getIsEnabled());
+
+		commentDAO.saveOrUpdateComment(comment);
+
 	}
 
 }

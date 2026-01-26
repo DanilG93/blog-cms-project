@@ -96,37 +96,38 @@
 
             <li class="nav-header text-bold pt-2 pb-1">COMMUNICATION</li>
             <li class="nav-item has-treeview">
-               <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-comments text-info"></i>
-                  <p>
-                     Interaction <i class="right fas fa-angle-left"></i>
-                     <c:if test="${hasUnread}">
-                        <span class="right badge badge-danger">New</span>
-                     </c:if>
-                  </p>
+               <a href="#" class="d-flex align-items-center nav-link">
+                  <i class="nav-icon fas fa-comments text-info"></i> Interaction
+                  <c:if test="${hasUnread}">
+                     <span class="right badge bg-warning">New</span>
+                  </c:if>
+                  <i class="right fas fa-angle-left"></i>
+
+
 
 
                </a>
                <ul class="nav nav-treeview">
+
                   <li class="nav-item">
 
-                     <a href="${pageContext.request.contextPath}/administration/comments" class="nav-link">
-                        <i class="far fa-comment nav-icon"> </i>
-
-                        <p>
-                           Comments
-
-                           <c:if test="${commentCount > 0}">
-                              <span class="badge badge-info right">${commentCount}</span>
-                           </c:if>
-                        </p>
+                     <a class="d-flex align-items-center nav-link" href="${pageContext.request.contextPath}/administration/comments">
+                        <i class="far fa-comment nav-icon"> </i> Comments
+                        <c:if test="${commentCount > 0}">
+                           <span class="badge badge-info right">${commentCount}</span>
+                        </c:if>
 
                      </a>
                   </li>
+
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
-                        <i class="far fa-envelope nav-icon"></i>
-                        <p>Messages</p>
+
+                     <a class="d-flex align-items-center nav-link" href="${pageContext.request.contextPath}/administration/messages">
+                        <i class="far fa-envelope nav-icon"></i> Messages
+                        <c:if test="${messageCount > 0}">
+                           <span class="badge badge-info right">${messageCount}</span>
+                        </c:if>
+
                      </a>
                   </li>
                </ul>

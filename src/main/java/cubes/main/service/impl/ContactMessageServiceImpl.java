@@ -58,4 +58,12 @@ public class ContactMessageServiceImpl implements ContactMessageService {
 		return false;
 	}
 
+	@Override
+	@Transactional
+	public void markAsRead(Integer id) {
+		ContactMessage contactMessage = contactMessageDAO.getContactMessageById(id);
+		contactMessage.setIsRead(true);
+		contactMessageDAO.saveOrUpdateContactMessage(contactMessage);
+	}
+
 }

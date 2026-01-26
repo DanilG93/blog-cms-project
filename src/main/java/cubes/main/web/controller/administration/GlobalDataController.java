@@ -25,8 +25,13 @@ public class GlobalDataController {
 
 	@ModelAttribute("commentCount")
 	public Long commentCount(Model model) {
-
 		return commentService.getUnreadCommentCount();
 	}
+	
+	@ModelAttribute("messageCount")
+	public Long messageCount(Model model) {
+		return contactMessageService.getUnreadContactMessageCount();
+	}
+	
 
 }

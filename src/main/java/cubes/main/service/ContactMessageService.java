@@ -13,9 +13,11 @@ public interface ContactMessageService {
 	public ContactMessage getContactMessageById(Integer id);
 
 	public void deleteContactMessage(Integer id);
-	
+
 	public Long getUnreadContactMessageCount();
-	
+
 	public boolean hasUnreadContactMessage();
-	
+
+	public void markAsRead(Integer id);
+
 }

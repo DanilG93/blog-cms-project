@@ -21,5 +21,7 @@ public interface CommentService {
 	public boolean hasUnreadComment();
 	
 	public void markAllAsRead();
+	
+	public void toggleCommentStatus(Integer id);
 
 }

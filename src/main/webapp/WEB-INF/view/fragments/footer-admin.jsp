@@ -8,6 +8,7 @@
 <script src="${pageContext.request.contextPath}/admin-theme/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/admin-theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="${pageContext.request.contextPath}/admin-theme/dist/js/adminlte.min.js"></script>
+<script src="https://kit.fontawesome.com/c36e69fd85.js" crossorigin="anonymous"></script>
 
 <script>
    $(document).ready(function() {

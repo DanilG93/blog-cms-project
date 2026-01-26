@@ -1,6 +1,7 @@
 package cubes.main.entity;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -64,11 +65,11 @@ public class ContactMessage {
 		this.message = message;
 	}
 
-	public boolean isRead() {
+	public boolean getIsRead() {
 		return isRead;
 	}
 
-	public void setRead(boolean isRead) {
+	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
 	}
 
@@ -78,6 +79,24 @@ public class ContactMessage {
 
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public String getDateFormatted() {
+		if (this.createdAt == null)
+			return "";
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+
+		return this.createdAt.format(formatter);
+	}
+
+	public String getTimeFormatted() {
+		if (this.createdAt == null)
+			return "";
+
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+		return this.createdAt.format(formatter);
 	}
 
 }

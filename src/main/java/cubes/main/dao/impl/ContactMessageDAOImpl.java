@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import cubes.main.dao.ContactMessageDAO;
 import cubes.main.entity.ContactMessage;
 
-
 @Repository
 public class ContactMessageDAOImpl implements ContactMessageDAO {
 
@@ -25,7 +24,7 @@ public class ContactMessageDAOImpl implements ContactMessageDAO {
 	@Override
 	public List<ContactMessage> getContactMessages() {
 		List<ContactMessage> contactMessage = sessionFactory.getCurrentSession()
-				.createQuery("from ContactMessage", ContactMessage.class).getResultList();
+				.createQuery("from ContactMessage m order by m.createdAt DESC", ContactMessage.class).getResultList();
 
 		return contactMessage;
 	}
@@ -56,14 +55,14 @@ public class ContactMessageDAOImpl implements ContactMessageDAO {
 
 	@Override
 	public Long getUnreadContactMessageCount() {
-		
-			Session session = sessionFactory.getCurrentSession();
 
-			Query<Long> query = session
-					.createQuery("SELECT COUNT(c) FROM ContactMessage c WHERE isRead = false", Long.class);
-			
-			return query.getSingleResult();
-		
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Long> query = session.createQuery("SELECT COUNT(c) FROM ContactMessage c WHERE isRead = false",
+				Long.class);
+
+		return query.getSingleResult();
+
 	}
 
 }
