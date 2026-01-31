@@ -1,7 +1,9 @@
 package cubes.main.entity;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -128,7 +130,7 @@ public class Post {
 		this.viewCount = viewCount;
 	}
 
-	public boolean isImportant() {
+	public boolean getImportant() {
 		return important;
 	}
 
@@ -136,7 +138,7 @@ public class Post {
 		this.important = important;
 	}
 
-	public boolean isEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
 
@@ -184,5 +186,12 @@ public class Post {
 		this.comments = comments;
 	}
 
+	public Date getCreatedAtAsDate() {
+		if (this.createdAt == null) {
+			return null;
+		}
+
+		return Date.from(this.createdAt.atZone(ZoneId.systemDefault()).toInstant());
+	}
 
 }

@@ -7,18 +7,12 @@
 <script src="${pageContext.request.contextPath}/admin-theme/plugins/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/admin-theme/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/admin-theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/admin-theme/plugins/select2/js/select2.full.min.js"></script>
+<script src="${pageContext.request.contextPath}/admin-theme/plugins/summernote/summernote-bs4.min.js"></script>
+<script src="${pageContext.request.contextPath}/admin-theme/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script src="${pageContext.request.contextPath}/admin-theme/dist/js/adminlte.min.js"></script>
-<script src="https://kit.fontawesome.com/c36e69fd85.js" crossorigin="anonymous"></script>
+<script src="${pageContext.request.contextPath}/admin-theme/dist/js/admin-custom.js"></script>
 
-<script>
-   $(document).ready(function() {
-      var currentUrl = window.location.href.split(/[?#]/)[0];
-      $('.nav-sidebar a').each(function() {
-         if (this.href === currentUrl) {
-            $(this).addClass('active');
-            $(this).parentsUntil(".nav-sidebar", ".nav-item").addClass('menu-open');
-            $(this).parentsUntil(".nav-sidebar", ".nav-item").children(".nav-link").addClass('active');
-         }
-      });
-   });
-</script>
+
+
+<script src="https://kit.fontawesome.com/c36e69fd85.js" crossorigin="anonymous"></script>
