@@ -30,12 +30,12 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void saveOrUpdateUser(User user) {
-		sessionFactory.getCurrentSession().saveOrUpdate(user);
+		sessionFactory.getCurrentSession().merge(user);
 
 	}
 
 	@Override
-	public User getUserByname(String username) {
+	public User getUserByUsername(String username) {
 		User user = sessionFactory.getCurrentSession().get(User.class, username);
 
 		return user;
@@ -50,6 +50,40 @@ public class UserDAOImpl implements UserDAO {
 
 		query.executeUpdate();
 
+	}
+
+	@Override
+	public void enableDisableUser(String username) {
+
+		Session session = sessionFactory.getCurrentSession();
+		User user = session.get(User.class, username);
+
+		user.setEnabled(!user.isEnabled());
+
+		session.saveOrUpdate(user);
+	}
+
+	@Override
+	public List<User> getUsers(int page, int pageSize) {
+		Session session = sessionFactory.getCurrentSession();
+
+		int start = (page - 1) * pageSize;
+
+		Query<User> query = session.createQuery("from User", User.class);
+
+		query.setFirstResult(start);
+		query.setMaxResults(pageSize);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public long getUserCount() {
+		Session session = sessionFactory.getCurrentSession();
+		
+		long countUser = (long) session.createQuery("select count(u) from User u").uniqueResult();
+		
+		return countUser;
 	}
 
 }

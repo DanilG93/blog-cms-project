@@ -163,14 +163,13 @@
                                              <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" class="img-size-50">
                                           </c:if>
                                           <c:if test="${empty post.image}">
-                                             <span class="badge badge-secondary">No Img</span>
+                                             <img src="${pageContext.request.contextPath}/uploads/default/no_image_available.jpg" class="img-size-50">
                                           </c:if>
                                        </td>
 
 
                                        <td class="text-center align-middle">
-                                          <a href="${pageContext.request.contextPath}/uploads/posts/${post.image}"
-                                             style="text-decoration: none;">
+                                          <a href="${pageContext.request.contextPath}/uploads/posts/${post.image}" style="text-decoration: none;">
 
                                              <c:choose>
                                                 <c:when test="${post.enabled}">

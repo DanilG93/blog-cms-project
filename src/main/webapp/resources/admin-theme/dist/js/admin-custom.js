@@ -8,7 +8,7 @@ $(document).ready(function() {
 	if ($('#summernote').length > 0) {
 		$('#summernote').summernote({
 			placeholder: 'Write your post content here...',
-			height: 300,  
+			height: 300,
 			toolbar: [
 				['style', ['style']],
 				['font', ['bold', 'underline', 'clear']],
@@ -43,6 +43,21 @@ $(document).ready(function() {
 			$(this).addClass('active');
 			$(this).parentsUntil(".nav-sidebar", ".nav-item").addClass('menu-open');
 			$(this).parentsUntil(".nav-sidebar", ".nav-item").children(".nav-link").addClass('active');
+		}
+	});
+
+	//Checking if there is at least one role (User Form logic)
+	$(document).on('change', 'input[name="roles"]', function() {
+		
+		var checkedCount = $('input[name="roles"]:checked').length;
+
+		
+		if (checkedCount === 0) {
+			
+			$('input[value="ROLE_BLOGGER"]').prop('checked', true);
+
+			
+			console.log("User must have at least one role. Automatically returned BLOGGER.");
 		}
 	});
 

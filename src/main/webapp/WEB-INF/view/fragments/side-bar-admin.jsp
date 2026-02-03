@@ -143,13 +143,13 @@
                </a>
                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/users" class="nav-link">
                         <i class="fas fa-user-friends nav-icon"></i>
                         <p>Bloggers List</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/users/add" class="nav-link">
                         <i class="fas fa-user-plus nav-icon text-success"></i>
                         <p>Add New Blogger</p>
                      </a>
@@ -167,7 +167,8 @@
                </a>
                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                  
+                     <a href="${pageContext.request.contextPath}/administration/my-profile/edit" class="nav-link">
                         <i class="fas fa-id-card nav-icon"></i>
                         <p>Edit Personal Info</p>
                      </a>
