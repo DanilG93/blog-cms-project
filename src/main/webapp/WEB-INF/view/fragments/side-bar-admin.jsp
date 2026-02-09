@@ -17,7 +17,7 @@
 
             <li class="nav-header text-bold pt-0 pb-1">DASHBOARD</li>
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="${pageContext.request.contextPath}/administration" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
                   <p>Overview</p>
                </a>
@@ -168,13 +168,13 @@
                <ul class="nav nav-treeview">
                   <li class="nav-item">
                   
-                     <a href="${pageContext.request.contextPath}/administration/my-profile/edit" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/my-profile" class="nav-link">
                         <i class="fas fa-id-card nav-icon"></i>
                         <p>Edit Personal Info</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="#" class="nav-link">
+                     <a href="${pageContext.request.contextPath}/administration/my-profile/change-password" class="nav-link">
                         <i class="fas fa-key nav-icon text-danger"></i>
                         <p>Change Password</p>
                      </a>
@@ -183,7 +183,7 @@
             </li>
 
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="${pageContext.request.contextPath}/logout" class="nav-link">
                   <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
                   <p>Logout</p>
                </a>

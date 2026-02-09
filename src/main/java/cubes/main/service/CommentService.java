@@ -23,5 +23,7 @@ public interface CommentService {
 	public void markAllAsRead();
 	
 	public void toggleCommentStatus(Integer id);
+	
+	public Long getTotalCommentCount();
 
 }

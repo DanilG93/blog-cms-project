@@ -15,4 +15,6 @@ public interface CategoryService {
 	public void deleteCategory(Integer id);
 
 	public void changeCategoryOrder(int id, String direction);
+	
+	public Long getCategoryCount();
 }

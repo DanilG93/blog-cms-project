@@ -28,7 +28,7 @@
                   <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                           <a href="#">Home</a>
+                           <a href="${pageContext.request.contextPath}/administration">Home</a>
                         </li>
                         <li class="breadcrumb-item active">Posts</li>
                      </ol>
@@ -169,7 +169,7 @@
 
 
                                        <td class="text-center align-middle">
-                                          <a href="${pageContext.request.contextPath}/uploads/posts/${post.image}" style="text-decoration: none;">
+                                          <a href="${pageContext.request.contextPath}/administration/posts/toggle-enabled/${post.id}">
 
                                              <c:choose>
                                                 <c:when test="${post.enabled}">

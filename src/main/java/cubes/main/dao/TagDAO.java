@@ -15,4 +15,6 @@ public interface TagDAO {
 	public void deleteTag(Integer id);
 	
 	public Tag getTagByUrlSeo(String title);
+	
+	public Long getTagCount();
 }

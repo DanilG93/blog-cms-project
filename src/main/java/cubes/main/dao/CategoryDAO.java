@@ -20,5 +20,7 @@ public interface CategoryDAO {
 	public Category getCategoryByUrlSeo(String title);
 	
 	public void shiftDisplayOrders(int deletedOrder);
+	
+	public Long getCategoryCount();
 
 }

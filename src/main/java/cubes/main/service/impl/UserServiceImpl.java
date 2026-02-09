@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import cubes.main.dao.UserDAO;
+import cubes.main.dto.PasswordDTO;
 import cubes.main.entity.Role;
 import cubes.main.entity.User;
 import cubes.main.service.UserService;
@@ -89,7 +90,7 @@ public class UserServiceImpl implements UserService {
 	private void createUser(User user, List<String> roles, MultipartFile file, HttpServletRequest request) {
 
 		String encoded = passwordEncoder.encode(user.getPassword());
-		user.setPassword("{bcrypt}" + encoded);
+		user.setPassword(encoded);
 
 		user.setEnabled(true);
 		mapRoles(user, roles);
@@ -133,24 +134,43 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void saveMyProfile(User user, MultipartFile file, HttpServletRequest request) {
-		
-	    User existingUser = userDAO.getUserByUsername(user.getUsername());
 
-	  
-	    existingUser.setName(user.getName());
-	    existingUser.setSurname(user.getSurname());
-	    existingUser.setEmail(user.getEmail());
-	    existingUser.setPhone(user.getPhone());
+		User existingUser = userDAO.getUserByUsername(user.getUsername());
 
-	   
-	    if (file != null && !file.isEmpty()) {
-	        String fileName = MyUtil.saveImage(file, "users", request);
-	        existingUser.setImage(fileName);
-	    }
-	   
+		existingUser.setName(user.getName());
+		existingUser.setSurname(user.getSurname());
+		existingUser.setEmail(user.getEmail());
+		existingUser.setPhone(user.getPhone());
 
-	    userDAO.saveOrUpdateUser(existingUser);
-		
+		if (file != null && !file.isEmpty()) {
+			String fileName = MyUtil.saveImage(file, "users", request);
+			existingUser.setImage(fileName);
+		}
+
+		userDAO.saveOrUpdateUser(existingUser);
+
+	}
+
+	@Override
+	@Transactional
+	public boolean changePassword(String username, PasswordDTO passwordDTO) {
+
+		User user = userDAO.getUserByUsername(username);
+
+		String dbPassword = user.getPassword();
+
+		if (!passwordEncoder.matches(passwordDTO.getOldPassword(), dbPassword)) {
+			return false;
+		}
+
+		if (!passwordDTO.getNewPassword().equals(passwordDTO.getConfirmPassword())) {
+			return false;
+		}
+
+		String encodedPasswordString = passwordEncoder.encode(passwordDTO.getNewPassword());
+		user.setPassword(encodedPasswordString);
+
+		return true;
 	}
 
 }

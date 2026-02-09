@@ -131,4 +131,11 @@ public class CategoryServiceImpl implements CategoryService {
 
 	}
 
+	@Override
+	@Transactional
+	public Long getCategoryCount() {
+		
+		return categoryDAO.getCategoryCount();
+	}
+
 }

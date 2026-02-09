@@ -18,5 +18,7 @@ public interface CommentDAO {
 
 	public Long getUnreadCommentCount();
 	
+	public Long getTotalCommentCount();
+	
 	public void markAllAsRead();
 }

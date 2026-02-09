@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <footer class="main-footer">
    <div class="float-right d-none d-sm-inline">Java Spring Boot</div>
-   <strong>Copyright &copy; 2026 <a href="https://cubes.edu.rs">Cubes School</a>.</strong> All rights reserved.
+   <strong>Copyright &copy; 2026 <a href="https://cubes.edu.rs">Cubes School</a>  | <i class="fa-brands fa-linkedin"></i><a href="https://www.linkedin.com/in/danilgomanjuk/">Danil Gomanjuk</a> .</strong> All rights reserved.
 </footer>
 
 <script src="${pageContext.request.contextPath}/admin-theme/plugins/jquery/jquery.min.js"></script>

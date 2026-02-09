@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
 import org.springframework.ui.Model;
 
+import cubes.main.dto.PasswordDTO;
 import cubes.main.entity.User;
 import cubes.main.service.UserService;
 
@@ -24,7 +26,7 @@ public class MyProfileController {
 	@Autowired
 	private UserService userService;
 
-	@GetMapping("/edit")
+	@GetMapping("")
 	public String getMyProfile(Principal principal, Model model) {
 
 		User user = userService.getUserByUsername(principal.getName());
@@ -40,7 +42,31 @@ public class MyProfileController {
 
 		userService.saveMyProfile(user, file, request);
 
-		return "redirect:/administration/my-profile/edit?success=true";
+		return "redirect:/administration/my-profile?success=true";
+	}
+
+	@GetMapping("/change-password")
+	public String getChangePasswordForm(Model model, Principal principal) {
+
+		User user = userService.getUserByUsername(principal.getName());
+		model.addAttribute("user", user);
+		model.addAttribute("passwordDTO", new PasswordDTO());
+
+		return "administration/user/change-password-form";
+	}
+
+	@PostMapping("/change-password-save")
+	public String changePassword(@ModelAttribute("passwordDTO") PasswordDTO passwordDTO, Principal principal,
+			Model model) {
+
+		boolean success = userService.changePassword(principal.getName(), passwordDTO);
+
+		if (!success) {
+			model.addAttribute("error", "Check the entered data (old password or mismatch of new ones).");
+			return "administration/user/change-password-form";
+		}
+
+		return "redirect:/administration/my-profile?passwordChanged=true";
 	}
 
 }

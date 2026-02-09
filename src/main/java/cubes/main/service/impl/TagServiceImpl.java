@@ -58,4 +58,11 @@ public class TagServiceImpl implements TagService {
 		tagDAO.deleteTag(id);
 	}
 
+	@Override
+	@Transactional
+	public Long getTagCount() {
+
+		return tagDAO.getTagCount();
+	}
+
 }

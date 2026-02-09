@@ -29,7 +29,7 @@
                   <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right" id="breadcrumb-list">
                         <li class="breadcrumb-item">
-                           <a href="#">Home</a>
+                           <a href="${pageContext.request.contextPath}/administration">Home</a>
                         </li>
                         <c:choose>
 

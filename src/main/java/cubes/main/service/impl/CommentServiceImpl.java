@@ -83,4 +83,11 @@ public class CommentServiceImpl implements CommentService {
 
 	}
 
+	@Override
+	@Transactional
+	public Long getTotalCommentCount() {
+		
+		return commentDAO.getTotalCommentCount();
+	}
+
 }

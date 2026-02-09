@@ -19,7 +19,20 @@
                   <div class="col-sm-6">
                      <h1>${user.username == null ? 'Add New Blogger' : 'Edit Blogger'}</h1>
                   </div>
+
+                  <div class="col-sm-6">
+                     <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                           <a href="${pageContext.request.contextPath}/administration">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                           <a href="${pageContext.request.contextPath}/administration/users">Bloggers</a>
+                        </li>
+                        <li class="breadcrumb-item active">${empty user.username ? 'Add Blogger' : 'Edit Blogger'}</li>
+                     </ol>
+                  </div>
                </div>
+
             </div>
          </section>
 

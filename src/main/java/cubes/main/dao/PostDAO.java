@@ -19,6 +19,9 @@ public interface PostDAO {
 	
 	public Post getPostByUrlSeo(String title);
 	
+	public Long getPostCount();	
+	
+	public List<Post> getRecentPosts(int limit);
 	
 
 }

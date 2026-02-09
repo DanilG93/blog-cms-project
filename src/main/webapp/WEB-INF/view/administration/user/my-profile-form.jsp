@@ -17,7 +17,19 @@
             <div class="container-fluid">
                <div class="row mb-2">
                   <div class="col-sm-6">
-                     <h1>${user.username == null ? 'Add New Blogger' : 'Edit Blogger'}</h1>
+                     <h1>My Profile</h1>
+                  </div>
+                  
+                   <div class="col-sm-6">
+                     <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">
+                           <a href="${pageContext.request.contextPath}/administration">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                           <a href="${pageContext.request.contextPath}/administration/users">Bloggers</a>
+                        </li>
+                        <li class="breadcrumb-item active">Edit Personal Info</li>
+                     </ol>
                   </div>
                </div>
             </div>
@@ -75,7 +87,7 @@
                                  </li>
                               </ul>
 
-                              <a href="#" class="btn btn-primary btn-block">
+                              <a href="${pageContext.request.contextPath}/administration/my-profile/change-password" class="btn btn-primary btn-block">
                                  <b>Change Password</b>
                               </a>
                            </div>
@@ -126,7 +138,7 @@
 
                               <div class="form-group mt-4">
                                  <button type="submit" class="btn btn-success float-right">Save Changes</button>
-                                 <a href="${pageContext.request.contextPath}/administration/my-profile/edit" class="btn btn-secondary">Cancel</a>
+                                 <a href="${pageContext.request.contextPath}/administration/my-profile" class="btn btn-secondary">Cancel</a>
                               </div>
                            </div>
                         </div>

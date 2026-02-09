@@ -62,4 +62,13 @@ public class TagDAOImpl implements TagDAO {
 		return seoUrl.uniqueResult();
 	}
 
+	@Override
+	public Long getTagCount() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Long> query = session.createQuery("SELECT COUNT(t) FROM Tag t", Long.class);
+
+		return query.getSingleResult();
+	}
+
 }

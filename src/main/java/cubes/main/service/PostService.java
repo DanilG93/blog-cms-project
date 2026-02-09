@@ -20,5 +20,9 @@ public interface PostService {
 	public void changeEnabled(Integer id);
 	
 	public List<Post> search(PostSearch search);
+	
+	public Long getPostCount();
+	
+	public List<Post> getRecentPosts(int limit);
 
 }

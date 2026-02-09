@@ -13,5 +13,7 @@ public interface TagService {
 	public Tag getTagById(Integer id);
 
 	public void deleteTag(Integer id);
+	
+	public Long getTagCount();
 
 }

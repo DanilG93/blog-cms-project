@@ -19,11 +19,14 @@ public class PostDAOImpl implements PostDAO {
 	private final SessionFactory sessionFactory;
 
 	public PostDAOImpl(SessionFactory sessionFactory) {
+
 		this.sessionFactory = sessionFactory;
+
 	}
 
 	@Override
 	public List<Post> getPosts() {
+
 		List<Post> postList = sessionFactory.getCurrentSession()
 				.createQuery("SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.comments", Post.class).getResultList();
 
@@ -32,12 +35,14 @@ public class PostDAOImpl implements PostDAO {
 
 	@Override
 	public void saveOrUpdatePost(Post post) {
+
 		sessionFactory.getCurrentSession().merge(post);
 
 	}
 
 	@Override
 	public Post getPostById(Integer id) {
+
 		Post post = sessionFactory.getCurrentSession().get(Post.class, id);
 
 		return post;
@@ -45,6 +50,7 @@ public class PostDAOImpl implements PostDAO {
 
 	@Override
 	public void deletePost(Integer id) {
+
 		Session session = sessionFactory.getCurrentSession();
 
 		Query<?> query = session.createQuery("delete from Post where id = :postId");
@@ -93,13 +99,36 @@ public class PostDAOImpl implements PostDAO {
 
 	@Override
 	public Post getPostByUrlSeo(String title) {
-		
+
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<Post> seoUrl = session.createQuery("FROM Post c WHERE c.seoUrl = :seoUrl", Post.class);
+		Query<Post> seoUrl = session.createQuery("FROM Post p WHERE p.seoUrl = :seoUrl", Post.class);
 
 		seoUrl.setParameter("seoUrl", title);
 		return seoUrl.uniqueResult();
+	}
+
+	@Override
+	public Long getPostCount() {
+
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Long> query = session.createQuery("SELECT COUNT(p) FROM Post p", Long.class);
+
+		return query.getSingleResult();
+
+	}
+
+	@Override
+	public List<Post> getRecentPosts(int limit) {
+
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Post> query = session.createQuery("FROM Post p ORDER BY p.createdAt DESC", Post.class);
+
+		query.setMaxResults(limit);
+
+		return query.getResultList();
 	}
 
 }

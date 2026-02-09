@@ -93,4 +93,15 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	}
 
+	@Override
+	public Long getCategoryCount() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Long> query = session.createQuery("SELECT COUNT(c) FROM Category c", Long.class);
+
+		return query.getSingleResult();
+	}
+	
+	
+
 }

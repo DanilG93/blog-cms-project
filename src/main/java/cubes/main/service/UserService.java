@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import cubes.main.dto.PasswordDTO;
 import cubes.main.entity.User;
 
 public interface UserService {
@@ -27,5 +28,7 @@ public interface UserService {
 	public void saveMyProfile(User user, MultipartFile file, HttpServletRequest request);
 	
 	public long getUserCount();
+	
+	public boolean changePassword(String username, PasswordDTO passwordDTO);
 
 }

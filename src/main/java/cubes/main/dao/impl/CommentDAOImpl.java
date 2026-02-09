@@ -64,25 +64,31 @@ public class CommentDAOImpl implements CommentDAO {
 		return query.getResultList();
 	}
 
-	
 	@Override
 	public Long getUnreadCommentCount() {
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<Long> query = session
-				.createQuery("SELECT COUNT(c) FROM Comment c WHERE isRead = false", Long.class);
-		
+		Query<Long> query = session.createQuery("SELECT COUNT(c) FROM Comment c WHERE isRead = false", Long.class);
+
 		return query.getSingleResult();
 	}
 
 	@Override
 	public void markAllAsRead() {
 		Session session = sessionFactory.getCurrentSession();
-	    
-	  
-	    Query<?> query = session.createQuery("UPDATE Comment c SET c.isRead = true WHERE c.isRead = false");
-	    
-	    query.executeUpdate();
+
+		Query<?> query = session.createQuery("UPDATE Comment c SET c.isRead = true WHERE c.isRead = false");
+
+		query.executeUpdate();
+	}
+
+	@Override
+	public Long getTotalCommentCount() {
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<Long> query = session.createQuery("SELECT COUNT(c) FROM Comment c", Long.class);
+
+		return query.getSingleResult();
 	}
 
 }

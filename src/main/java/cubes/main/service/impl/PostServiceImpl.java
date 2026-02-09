@@ -43,7 +43,7 @@ public class PostServiceImpl implements PostService {
 			}
 			post.setTags(persistTags);
 		}
-		
+
 		post = generateSeoUrlForPost(post);
 
 		postDAO.saveOrUpdatePost(post);
@@ -109,6 +109,21 @@ public class PostServiceImpl implements PostService {
 
 		return post;
 
+	}
+
+	@Override
+	@Transactional
+	public Long getPostCount() {
+
+		return postDAO.getPostCount();
+
+	}
+
+	@Override
+	@Transactional
+	public List<Post> getRecentPosts(int limit) {
+
+		return postDAO.getRecentPosts(limit);
 	}
 
 }
