@@ -22,15 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cubes.main.dto.PostSearch;
-import cubes.main.entity.Category;
 import cubes.main.entity.Post;
 import cubes.main.entity.Tag;
-import cubes.main.entity.User;
 import cubes.main.service.CategoryService;
 import cubes.main.service.PostService;
 import cubes.main.service.TagService;
 import cubes.main.service.UserService;
-import cubes.main.util.MyUtil;
 
 @Controller
 @RequestMapping("/administration/posts")
@@ -98,37 +95,7 @@ public class PostController {
 			return "administration/post/post-form";
 		}
 
-		if (post.getCategory() != null && post.getCategory().getId() != null) {
-			Category category = categoryService.getCategoryById(post.getCategory().getId());
-			post.setCategory(category);
-		} else {
-			post.setCategory(null);
-		}
-
-		String fileName = MyUtil.saveImage(file, "posts", request);
-
-		if (fileName != null) {
-			post.setImage(fileName);
-		}
-
-		if (post.getId() != null) {
-
-			Post oldPost = postService.getPostById(post.getId());
-
-			if (fileName == null) {
-				post.setImage(oldPost.getImage());
-			}
-
-			post.setUser(oldPost.getUser());
-			post.setViewCount(oldPost.getViewCount());
-		} else {
-
-			String username = principal.getName();
-			User author = userService.getUserByUsername(username);
-			post.setUser(author);
-		}
-
-		postService.saveOrUpdatePost(post);
+		postService.savePost(post, file, request, principal);
 
 		return "redirect:/administration/posts";
 	}

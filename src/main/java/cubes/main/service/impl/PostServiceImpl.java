@@ -1,18 +1,26 @@
 package cubes.main.service.impl;
 
+import java.security.Principal;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import cubes.main.dao.CategoryDAO;
 import cubes.main.dao.PostDAO;
 import cubes.main.dao.TagDAO;
+import cubes.main.dao.UserDAO;
 import cubes.main.dto.PostSearch;
+import cubes.main.entity.Category;
 import cubes.main.entity.Post;
 import cubes.main.entity.Tag;
+import cubes.main.entity.User;
 import cubes.main.service.PostService;
 import cubes.main.util.MyUtil;
 
@@ -24,6 +32,12 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	private TagDAO tagDAO;
+
+	@Autowired
+	private CategoryDAO categoryDAO;
+
+	@Autowired
+	private UserDAO userDAO;
 
 	@Override
 	@Transactional
@@ -124,6 +138,84 @@ public class PostServiceImpl implements PostService {
 	public List<Post> getRecentPosts(int limit) {
 
 		return postDAO.getRecentPosts(limit);
+	}
+
+	@Override
+	@Transactional
+	public void savePost(Post post, MultipartFile file, HttpServletRequest request, Principal principal) {
+
+		if (post.getId() == null) {
+			createPost(post, file, request, principal);
+		} else {
+			updatePost(post, file, request);
+		}
+
+	}
+
+	private void createPost(Post post, MultipartFile file, HttpServletRequest request, Principal principal) {
+
+		handleCategory(post);
+
+		handleTags(post);
+
+		if (file != null && !file.isEmpty()) {
+			String fileName = MyUtil.saveImage(file, "posts", request);
+			post.setImage(fileName);
+		}
+
+		String username = principal.getName();
+		User author = userDAO.getUserByUsername(username);
+		post.setUser(author);
+
+		post = generateSeoUrlForPost(post);
+
+		postDAO.saveOrUpdatePost(post);
+
+	}
+
+	private void updatePost(Post post, MultipartFile file, HttpServletRequest request) {
+
+		Post existingPost = postDAO.getPostById(post.getId());
+
+		handleCategory(post);
+
+		handleTags(post);
+
+		if (file != null && !file.isEmpty()) {
+			String fileName = MyUtil.saveImage(file, "posts", request);
+			post.setImage(fileName);
+		} else {
+			post.setImage(existingPost.getImage());
+		}
+
+		post.setUser(existingPost.getUser());
+		post.setViewCount(existingPost.getViewCount());
+
+		post = generateSeoUrlForPost(post);
+		postDAO.saveOrUpdatePost(post);
+	}
+
+	private void handleCategory(Post post) {
+
+		if (post.getCategory() != null && post.getCategory().getId() != null) {
+
+			Category category = categoryDAO.getCategoryById(post.getCategory().getId());
+			post.setCategory(category);
+		} else {
+			post.setCategory(null);
+		}
+	}
+
+	private void handleTags(Post post) {
+
+		if (post.getTags() != null) {
+			Set<Tag> persistTags = new LinkedHashSet<>();
+			for (Tag t : post.getTags()) {
+				Tag fullTag = tagDAO.getTagById(t.getId());
+				persistTags.add(fullTag);
+			}
+			post.setTags(persistTags);
+		}
 	}
 
 }

@@ -96,8 +96,7 @@ public class UserServiceImpl implements UserService {
 		mapRoles(user, roles);
 
 		if (file != null && !file.isEmpty()) {
-			String fileName = MyUtil.saveImage(file, "users", request);
-			user.setImage(fileName);
+			user.setImage(MyUtil.saveImage(file, "users", request));
 		}
 
 		userDAO.saveOrUpdateUser(user);
@@ -106,18 +105,18 @@ public class UserServiceImpl implements UserService {
 	private void updateUser(User user, User existingUser, List<String> roles, MultipartFile file,
 			HttpServletRequest request) {
 
-		user.setPassword(existingUser.getPassword());
+		existingUser.setName(user.getName());
+		existingUser.setSurname(user.getSurname());
+		existingUser.setEmail(user.getEmail());
+		existingUser.setPhone(user.getPhone());
 
 		mapRoles(user, roles);
 
 		if (file != null && !file.isEmpty()) {
-			user.setImage(existingUser.getImage());
-		} else {
-			String fileName = MyUtil.saveImage(file, "users", request);
-			user.setImage(fileName);
+			existingUser.setImage(MyUtil.saveImage(file, "users", request));
 		}
 
-		userDAO.saveOrUpdateUser(user);
+		userDAO.saveOrUpdateUser(existingUser);
 	}
 
 	private void mapRoles(User user, List<String> roles) {
