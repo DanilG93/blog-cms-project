@@ -23,30 +23,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		auth.jdbcAuthentication()
-		.dataSource(myDataSource)
-		.passwordEncoder(passwordEncoder());;
+		auth.jdbcAuthentication().dataSource(myDataSource).passwordEncoder(passwordEncoder());
+		;
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/").permitAll()
-//				.antMatchers("/administration/category-list").hasRole("admin")
-//				.antMatchers("/administration/category-form").hasRole("admin")
-//				.antMatchers("/administration/employee-list").hasRole("admin")
-//				.antMatchers("/administration/employee-form").hasRole("admin")
-//				.antMatchers("/administration/tag-list").hasRole("admin")
-//				.antMatchers("/administration/tag-form").hasRole("admin")
-//				.antMatchers("/administration/user-list").hasRole("admin")
-//				.antMatchers("/administration/user-form").hasRole("admin")
+		http.authorizeRequests()
+		.antMatchers(
+				"/",
+				"/login",
+				"/admin-theme/**",
+				"/front-theme/**",
+				"/uploads/**").permitAll()
+		
 				.antMatchers("/administration/**").hasAnyRole("BLOGGER", "ADMIN")
-
+				
 				.and().formLogin()
-//				.loginPage("/loginPage")
-				.loginProcessingUrl("/authenticateTheUser").permitAll();
+				.loginPage("/login")
+	            .loginProcessingUrl("/authenticateTheUser")
+	            .defaultSuccessUrl("/administration/", true)
+	            .permitAll()
 
-		// privremeno resenje !!
+	            .and()
+	            .logout()
+	                .logoutUrl("/logout") // URL koji trigera logout
+	                .logoutSuccessUrl("/") // <--- Gde te šalje posle logout-a (NA GLAVNU)
+	                .invalidateHttpSession(true) // Briše sesiju
+	                .deleteCookies("JSESSIONID") // Briše kolačić
+	                .permitAll();
+	            
+		
+		http.headers().cacheControl();
+		
 		http.cors().and().csrf().disable();
 
 	}

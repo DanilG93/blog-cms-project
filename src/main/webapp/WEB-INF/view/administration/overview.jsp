@@ -116,7 +116,20 @@
                                           </td>
                                           <td>${post.title}</td>
                                           <td>
-                                             <span class="badge badge-info">${post.category.name}</span>
+
+                                             <c:choose>
+                                                <c:when test="${not empty post.category}">
+
+                                                   <a href="${pageContext.request.contextPath}/administration/posts?categoryId=${post.category.id}">
+                                                      ${post.category.name} </a>
+                                                </c:when>
+
+                                                <c:otherwise>
+                                                Uncategorized
+                                                </c:otherwise>
+
+                                             </c:choose>
+
                                           </td>
                                           <td>
                                              <span class="badge badge-${post.enabled ? 'success' : 'secondary'}"> ${post.enabled ? 'Enable' : 'Disable'}

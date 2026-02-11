@@ -11,6 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "comments")
@@ -20,26 +25,37 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Integer id;
-	@Column
+
+	@Column(nullable = false, length = 100)
+	@NotBlank
 	private String name;
-	@Column
+
+	@Column(nullable = false, length = 100)
+	@Email
+	@NotBlank
 	private String email;
-	@Column
+
+	@Column(nullable = false, length = 1000) // Komentar može biti duži
+	@NotBlank
+	@Size(max = 1000)
 	private String content;
-	@Column(columnDefinition = "TINYINT(1) DEFAULT 1")
+
+	@Column(columnDefinition = "TINYINT(1) DEFAULT 1", nullable = false)
 	private boolean enabled;
 
 	@Column(name = "is_read", columnDefinition = "TINYINT(1) DEFAULT 0")
 	private boolean isRead;
-	@Column(name = "created_at")
+
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
 	private LocalDateTime createdAt;
 
 	@ManyToOne
-	@JoinColumn(name = "post_id")
+	@JoinColumn(name = "post_id", nullable = false)
 	private Post post;
 
 	public Comment() {
-		this.createdAt = LocalDateTime.now();
+
 	}
 
 	public Integer getId() {

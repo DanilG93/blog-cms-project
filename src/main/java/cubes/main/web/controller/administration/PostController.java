@@ -1,5 +1,6 @@
 package cubes.main.web.controller.administration;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -24,6 +25,7 @@ import cubes.main.dto.PostSearch;
 import cubes.main.entity.Category;
 import cubes.main.entity.Post;
 import cubes.main.entity.Tag;
+import cubes.main.entity.User;
 import cubes.main.service.CategoryService;
 import cubes.main.service.PostService;
 import cubes.main.service.TagService;
@@ -46,7 +48,7 @@ public class PostController {
 	@Autowired
 	private TagService tagService;
 
-	@InitBinder //
+	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Tag.class, new java.beans.PropertyEditorSupport() {
 			@Override
@@ -83,28 +85,47 @@ public class PostController {
 	}
 
 	@PostMapping("/save")
-	public String savePost(@Valid @ModelAttribute("post") Post post,
-			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request) {
+	public String savePost(@Valid @ModelAttribute("post") Post post, BindingResult bindingResult,
+			@RequestParam(value = "file", required = false) MultipartFile file, HttpServletRequest request,
+			Principal principal, Model model) {
 
-//		if (bindingResult.hasErrors()) {
-//			model.addAttribute("categoryList", categoryService.getCategories());
-//			model.addAttribute("tagList", tagService.getTags());
-//			return "administration/post/post-form";
-//		}
+		if (bindingResult.hasErrors()) {
+
+			model.addAttribute("categoryList", categoryService.getCategories());
+			model.addAttribute("tagList", tagService.getTags());
+			model.addAttribute("authorList", userService.getUsers());
+
+			return "administration/post/post-form";
+		}
 
 		if (post.getCategory() != null && post.getCategory().getId() != null) {
 			Category category = categoryService.getCategoryById(post.getCategory().getId());
 			post.setCategory(category);
+		} else {
+			post.setCategory(null);
 		}
 
 		String fileName = MyUtil.saveImage(file, "posts", request);
 
 		if (fileName != null) {
 			post.setImage(fileName);
-		} else if (post.getId() != null) {
+		}
+
+		if (post.getId() != null) {
 
 			Post oldPost = postService.getPostById(post.getId());
-			post.setImage(oldPost.getImage());
+
+			if (fileName == null) {
+				post.setImage(oldPost.getImage());
+			}
+
+			post.setUser(oldPost.getUser());
+			post.setViewCount(oldPost.getViewCount());
+		} else {
+
+			String username = principal.getName();
+			User author = userService.getUserByUsername(username);
+			post.setUser(author);
 		}
 
 		postService.saveOrUpdatePost(post);
@@ -118,6 +139,7 @@ public class PostController {
 		model.addAttribute("post", post);
 		model.addAttribute("categoryList", categoryService.getCategories());
 		model.addAttribute("tagList", tagService.getTags());
+		model.addAttribute("authorList", userService.getUsers());
 		return "administration/post/post-form";
 	}
 

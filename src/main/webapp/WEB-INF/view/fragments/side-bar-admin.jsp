@@ -4,9 +4,9 @@
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand">
    <!-- Brand Logo -->
-   <a href="index3.html" class="brand-link">
-      <img src="${pageContext.request.contextPath}/admin-theme/dist/img/AdminLTELogo.png" alt="Cubes School Logo" class="brand-image img-circle elevation-3">
-      <span class="brand-text font-weight-light">Cubes School</span>
+   <a href="${pageContext.request.contextPath}" class="brand-link">
+      <img src="${pageContext.request.contextPath}/admin-theme/dist/img/blogger-logo.png" alt="Blog Post Site" class="brand-image img-circle elevation-3">
+      <span class="brand-text font-weight-light">Blog Post Site</span>
    </a>
 
    <!-- Sidebar -->

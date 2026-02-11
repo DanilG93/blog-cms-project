@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tags")
@@ -19,10 +21,16 @@ public class Tag {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Integer id;
-	@Column
+	
+	
+	@Column(nullable = false, length = 50, unique = true)
+    @NotBlank
+    @Size(max = 50)
 	private String name;
-	@Column(name = "seo_url")
+	
+	@Column(name = "seo_url", nullable = false, unique = true, length = 60)
 	private String seoUrl;
+	
 	@ManyToMany(mappedBy = "tags")
 	private List<Post> posts;
 

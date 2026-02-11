@@ -17,10 +17,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "posts")
@@ -31,23 +37,38 @@ public class Post {
 	@Column
 	private Integer id;
 
-	@Column
+	@Column(nullable = false, length = 255)
+	@NotBlank(message = "Title must not be empty")
+	@Size(min = 20, max = 255, message = "Title must be between 20 and 255 characters")
 	private String title;
-	@Column
+
+	@Column(nullable = false, length = 500)
+	@NotBlank(message = "Description must not be empty")
+	@Size(min = 50, max = 500, message = "Description must be between 50 and 500 characters")
 	private String description;
-	@Column(columnDefinition = "TEXT")
+
+	@Lob
+	@Column(nullable = false)
+	@NotBlank(message = "Content is required")
 	private String content;
-	@Column
+
+	@Column(nullable = false)
 	private String image;
-	@Column(name = "created_at")
+
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
 	private LocalDateTime createdAt;
-	@Column(name = "view_count")
+
+	@Column(name = "view_count", nullable = false)
 	private int viewCount;
-	@Column
+
+	@Column(nullable = false)
 	private boolean important;
-	@Column
+
+	@Column(nullable = false)
 	private boolean enabled;
-	@Column(name = "seo_url")
+
+	@Column(name = "seo_url", nullable = false, unique = true)
 	private String seoUrl;
 
 	@ManyToOne
@@ -55,12 +76,13 @@ public class Post {
 	private Category category;
 
 	@ManyToOne
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "username", nullable = false)
 	private User user;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH })
 	@JoinTable(name = "posts_tags", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+	@NotEmpty(message = "Select at least one tag")
 	private Set<Tag> tags;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -69,8 +91,6 @@ public class Post {
 	public Post() {
 		this.tags = new LinkedHashSet<>();
 		this.comments = new ArrayList<>();
-
-		this.createdAt = LocalDateTime.now();
 		this.viewCount = 0;
 	}
 

@@ -124,7 +124,7 @@ public class PostDAOImpl implements PostDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<Post> query = session.createQuery("FROM Post p ORDER BY p.createdAt DESC", Post.class);
+		Query<Post> query = session.createQuery("FROM Post p WHERE p.enabled = true ORDER BY p.createdAt DESC", Post.class);
 
 		query.setMaxResults(limit);
 

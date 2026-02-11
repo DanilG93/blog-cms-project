@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "sliders")
@@ -15,17 +16,29 @@ public class Slider {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Integer id;
-	@Column
+	
+	@Column(nullable = false, length = 100)
+    @NotBlank
 	private String title;
-	@Column
+	
+	@Column(nullable = false)
 	private String image;
-	@Column(name = "button_text")
+	
+	
+	
+    
+	@Column(name = "button_text", nullable = false, length = 30)
+	@NotBlank
 	private String buttonText;
-	@Column(name = "button_url")
+	
+	@Column(name = "button_url", nullable = false, length = 255)
+	@NotBlank
 	private String buttonUrl;
-	@Column(name = "display_order")
+	
+	@Column(name = "display_order", nullable = false)
 	private Integer displayOrder;
-	@Column
+	
+	@Column(nullable = false)
 	private boolean enabled;
 
 	public Slider() {

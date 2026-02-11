@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "categories")
@@ -19,14 +21,23 @@ public class Category {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Integer id;
-	@Column
+
+	@Column(nullable = false, length = 50, unique = true)
+	@NotBlank
+	@Size(max = 50)
 	private String name;
-	@Column
+
+	@Column(length = 500)
+    @Size(max = 500)
 	private String description;
-	@Column(name = "display_order")
+
+	
+	@Column(name = "display_order", nullable = false)
 	private int displayOrder;
-	@Column(name = "seo_url")
+
+	@Column(name = "seo_url", nullable = false, unique = true, length = 60)
 	private String seoUrl;
+
 	@OneToMany(mappedBy = "category")
 	private List<Post> posts;
 

@@ -156,11 +156,24 @@
                               </thead>
 
                               <tbody>
+
+                                 <c:if test="${empty postList}">
+                                    <tr>
+                                       <td colspan="10" class="text-center p-4">
+                                          <h4 class="text-warning">
+                                             <i class="fas fa-search"></i> No posts found!
+                                          </h4>
+                                          <p>Try changing your search criteria.</p>
+                                       </td>
+                                    </tr>
+                                 </c:if>
+
                                  <c:forEach var="post" items="${postList}">
                                     <tr>
                                        <td class="text-center align-middle">
                                           <c:if test="${not empty post.image}">
-                                             <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" class="img-size-50">
+                                             <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" class="img-size-50"
+                                                onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
                                           </c:if>
                                           <c:if test="${empty post.image}">
                                              <img src="${pageContext.request.contextPath}/uploads/default/no_image_available.jpg" class="img-size-50">
@@ -213,7 +226,7 @@
 
                                        <td class="text-center align-middle">${post.viewCount}</td>
 
-                                       <td class="align-middle">${post.user.name}</td>
+                                       <td class="text-center align-middle">${post.user.name}${post.user.surname}</td>
 
                                        <td class="align-middle">
                                           <small>

@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import javax.persistence.JoinColumn;
 
 @Entity
@@ -18,22 +21,38 @@ import javax.persistence.JoinColumn;
 public class User {
 
 	@Id
-	@Column
+	@Column(length = 50)
+	@NotBlank(message = "Username is required")
+	@Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
 	private String username;
-	@Column
+
+	@Column(nullable = false, length = 68)
+	@NotBlank(message = "Password is required")
 	private String password;
 
-	@Column
+	@Column(nullable = false, unique = true, length = 100)
+	@NotBlank(message = "Email is required")
+	@Email(message = "Please provide a valid email address")
 	private String email;
-	@Column
+
+	@Column(nullable = false)
 	private boolean enabled;
 
-	@Column
+	@Column(nullable = false, length = 50)
+	@NotBlank(message = "Name is required")
+	@Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
 	private String name;
-	@Column
+
+	@Column(nullable = false, length = 50)
+	@NotBlank(message = "Surname is required")
+	@Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
 	private String surname;
-	@Column
+
+	@Column(nullable = false, length = 20)
+	@NotBlank(message = "Phone number is required")
+	@Size(min = 6, max = 20, message = "Phone number format is not valid")
 	private String phone;
+	
 	@Column
 	private String image;
 

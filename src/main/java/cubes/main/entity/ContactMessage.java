@@ -8,7 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "contact_messages")
@@ -18,15 +23,26 @@ public class ContactMessage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private Integer id;
-	@Column
+	
+	@Column(nullable = false, length = 100)
+    @NotBlank
 	private String name;
-	@Column
+	
+	@Column(nullable = false, length = 100)
+    @Email
+    @NotBlank
 	private String email;
-	@Column(columnDefinition = "TEXT")
+	
+	@Lob
+    @Column(nullable = false)
+    @NotBlank
 	private String message;
-	@Column(name = "is_read", columnDefinition = "TINYINT(1) DEFAULT 0")
+	
+	@Column(name = "is_read", columnDefinition = "TINYINT(1) DEFAULT 0", nullable = false)
 	private boolean isRead;
-	@Column(name = "created_at")
+	
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreationTimestamp
 	private LocalDateTime createdAt;
 
 	public ContactMessage() {

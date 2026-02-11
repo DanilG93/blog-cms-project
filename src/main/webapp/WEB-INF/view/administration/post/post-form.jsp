@@ -61,16 +61,19 @@
                                     <div class="form-group">
                                        <label>Title</label>
                                        <form:input path="title" class="form-control" placeholder="Enter title" />
+                                       <form:errors path="title" class="text-danger help-block"/>
                                     </div>
 
                                     <div class="form-group">
                                        <label>Description</label>
                                        <form:textarea path="description" class="form-control" rows="3" placeholder="Enter short description" />
+                                       <form:errors path="description" class="text-danger help-block"/>
                                     </div>
 
                                     <div class="form-group">
                                        <label>Body Content</label>
                                        <form:textarea path="content" id="summernote" class="form-control" rows="12" />
+                                       <form:errors path="content" class="text-danger help-block"/>
                                     </div>
                                  </div>
 
@@ -89,6 +92,8 @@
                                        <form:select path="tags" class="form-control select2" multiple="true" style="width: 100%;">
                                           <form:options items="${tagList}" itemValue="id" itemLabel="name" />
                                        </form:select>
+                                       
+                                       <form:errors path="tags" class="text-danger help-block"/>
                                     </div>
 
                                     <div class="form-group">
