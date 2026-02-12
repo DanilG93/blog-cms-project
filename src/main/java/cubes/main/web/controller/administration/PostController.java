@@ -87,13 +87,14 @@ public class PostController {
 			Principal principal, Model model) {
 
 		if (bindingResult.hasErrors()) {
-
+		
 			model.addAttribute("categoryList", categoryService.getCategories());
 			model.addAttribute("tagList", tagService.getTags());
 			model.addAttribute("authorList", userService.getUsers());
 
 			return "administration/post/post-form";
 		}
+
 
 		postService.savePost(post, file, request, principal);
 
@@ -102,11 +103,14 @@ public class PostController {
 
 	@GetMapping("/edit/{id}")
 	public String getEditForm(@PathVariable("id") Integer id, Model model) {
+
 		Post post = postService.getPostById(id);
+
 		model.addAttribute("post", post);
 		model.addAttribute("categoryList", categoryService.getCategories());
 		model.addAttribute("tagList", tagService.getTags());
 		model.addAttribute("authorList", userService.getUsers());
+
 		return "administration/post/post-form";
 	}
 

@@ -21,7 +21,7 @@
             <div class="container-fluid">
                <div class="row mb-2">
                   <div class="col-sm-6">
-                     <h1>Add Post</h1>
+                     <h1>${empty post.id ? 'Add Post' : 'Edit Post'}</h1>
                   </div>
                   <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
@@ -49,7 +49,7 @@
 
                         <form:hidden path="id" />
 
-                        <div class="card card-primary">
+                        <div class="card card-info">
                            <div class="card-header">
                               <h3 class="card-title">Post Content</h3>
                            </div>
@@ -61,19 +61,19 @@
                                     <div class="form-group">
                                        <label>Title</label>
                                        <form:input path="title" class="form-control" placeholder="Enter title" />
-                                       <form:errors path="title" class="text-danger help-block"/>
+                                       <form:errors path="title" class="text-danger help-block" />
                                     </div>
 
                                     <div class="form-group">
                                        <label>Description</label>
                                        <form:textarea path="description" class="form-control" rows="3" placeholder="Enter short description" />
-                                       <form:errors path="description" class="text-danger help-block"/>
+                                       <form:errors path="description" class="text-danger help-block" />
                                     </div>
 
                                     <div class="form-group">
                                        <label>Body Content</label>
                                        <form:textarea path="content" id="summernote" class="form-control" rows="12" />
-                                       <form:errors path="content" class="text-danger help-block"/>
+                                       <form:errors path="content" class="text-danger help-block" />
                                     </div>
                                  </div>
 
@@ -92,8 +92,8 @@
                                        <form:select path="tags" class="form-control select2" multiple="true" style="width: 100%;">
                                           <form:options items="${tagList}" itemValue="id" itemLabel="name" />
                                        </form:select>
-                                       
-                                       <form:errors path="tags" class="text-danger help-block"/>
+
+                                       <form:errors path="tags" class="text-danger help-block" />
                                     </div>
 
                                     <div class="form-group">
@@ -107,10 +107,12 @@
                                           </div>
                                        </div>
 
+                                       <form:errors path="image" cssClass="text-danger help-block" style="display:block; margin-top:5px;" />
+
                                        <c:if test="${not empty post.image}">
                                           <div class="mt-3 text-center">
-                                             <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}"
-                                                class="img-fluid img-thumbnail" style="width: 300px;">
+                                             <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" class="img-fluid img-bordered"
+                                                style="width: 300px;">
                                              <p class="text-muted small mt-1">Current Image</p>
                                           </div>
                                        </c:if>
@@ -141,7 +143,7 @@
 
                            <div class="card-footer text-right">
                               <a href="${pageContext.request.contextPath}/administration/posts" class="btn btn-secondary">Cancel</a>
-                              <button type="submit" class="btn btn-primary">Save Post</button>
+                              <button type="submit" class="btn btn-info">Save Post</button>
                            </div>
                         </div>
                      </form:form>

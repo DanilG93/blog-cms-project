@@ -44,7 +44,8 @@
                         <div class="card-header">
                            <h3 class="card-title">Slider Details</h3>
                         </div>
-                        <form:form action="${pageContext.request.contextPath}/administration/sliders/save" modelAttribute="slider" method="post">
+                        <form:form action="${pageContext.request.contextPath}/administration/sliders/save" modelAttribute="slider" method="post"
+                           enctype="multipart/form-data">
 
                            <form:hidden path="id" />
                            <form:hidden path="displayOrder" />
@@ -53,33 +54,51 @@
 
                               <div class="form-group">
                                  <label for="title">Slider Title</label>
-                                 <form:input path="title" type="text" class="form-control" id="title" placeholder="Enter slider title" />
+                                 <form:input path="title" type="text" class="form-control" placeholder="Enter slider title" />
                                  <form:errors path="title" cssClass="text-danger help-block" />
                               </div>
 
                               <div class="form-group">
-                                 <label for="image">Image URL</label>
-                                 <form:input path="image" type="text" class="form-control" id="image" placeholder="Enter image URL (http://...)" />
-                                 <small class="form-text text-muted">Paste the full URL of the image.</small>
-                                 <form:errors path="image" cssClass="text-danger help-block" />
-                              </div>
+                                 <label for="sliderImage">Slider Image</label>
 
+                                 <div class="input-group">
+                                    <div class="custom-file">
+                                       <input type="file" name="file" class="custom-file-input" id="sliderImage">
+                                       <label class="custom-file-label" for="sliderImage">Choose file</label>
+                                    </div>
+                                 </div>
+                                 <small class="text-muted">Recommended size: 1920x600px</small>
+
+                                 <form:errors path="image" cssClass="text-danger help-block" style="display:block; margin-top:5px;" />
+
+                                 <div class="mt-3">
+                                    <label>Image Preview:</label><br>
+                                    <c:choose>
+                                       <c:when test="${not empty slider.image}">
+                                          <img src="${pageContext.request.contextPath}/uploads/sliders/${slider.image}" class="img-fluid img-bordered"
+                                             style="max-height: 250px;" id="preview"
+                                             onerror="this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
+                                       </c:when>
+                                       <c:otherwise>
+                                          <img src="${pageContext.request.contextPath}/uploads/default/no_image_available.jpg" class="img-fluid img-bordered"
+                                             style="max-height: 250px;" id="preview">
+                                       </c:otherwise>
+                                    </c:choose>
+                                 </div>
+                                 
+                              </div>
                               <div class="row">
                                  <div class="col-md-6">
                                     <div class="form-group">
                                        <label for="buttonText">Button Text</label>
-                                       <form:input path="buttonText" type="text" class="form-control" id="buttonText" placeholder="e.g. Read More" />
+                                       <form:input path="buttonText" type="text" class="form-control" placeholder="e.g. Read More" />
                                        <form:errors path="buttonText" cssClass="text-danger help-block" />
                                     </div>
                                  </div>
                                  <div class="col-md-6">
                                     <div class="form-group">
-                                       <label for="buttonUrl">Button Link (Internal path or External URL)</label>
-                                       <form:input path="buttonUrl" type="text" class="form-control" id="buttonUrl"
-                                          placeholder="e.g. /blog or https://google.com" />
-                                       <small class="form-text text-muted">
-                                          "You can enter an internal path (e.g. <code>/contact</code> ) or a full external URL (e.g. <code>https://example.com</code>).
-                                       </small>
+                                       <label for="buttonUrl">Button Link</label>
+                                       <form:input path="buttonUrl" type="text" class="form-control" placeholder="e.g. /contact" />
                                        <form:errors path="buttonUrl" cssClass="text-danger help-block" />
                                     </div>
                                  </div>
@@ -88,17 +107,14 @@
                               <div class="form-group">
                                  <div class="custom-control custom-switch">
                                     <form:checkbox path="enabled" class="custom-control-input" id="enabledSwitch" />
-                                    <label class="custom-control-label" for="enabledSwitch">Enable this slider immediately</label>
+                                    <label class="custom-control-label" for="enabledSwitch">Enable this slider</label>
                                  </div>
                               </div>
 
                            </div>
                            <div class="card-footer">
-                              <button type="submit" class="btn btn-info">
-                                 <i class="fas fa-save"></i> Save Slider
-                              </button>
-
-                              <a href="${pageContext.request.contextPath}/administration/sliders/" class="btn btn-default float-right"> Cancel </a>
+                              <button type="submit" class="btn btn-info">Save</button>
+                              <a href="${pageContext.request.contextPath}/administration/sliders" class="btn btn-default float-right">Cancel</a>
                            </div>
                         </form:form>
                      </div>

@@ -165,18 +165,15 @@
                                        </td>
                                        <td class="align-middle text-center">
                                           <c:choose>
-
-                                             <c:when test="${empty slider.image}">
-                                                <img src="${pageContext.request.contextPath}/admin-theme/dist/img/no_image_available.jpg" alt="No image"
-                                                   style="width: 120px;" class="img-thumbnail">
+                                             <c:when test="${not empty slider.image}">
+                                                <img src="${pageContext.request.contextPath}/uploads/sliders/${slider.image}"
+                                                   class="img-lg img-bordered-sm img-rounded float-none d-inline-block"
+                                                   onerror="this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
                                              </c:when>
-
-
-                                             <c:when test="${fn:startsWith(slider.image, 'http')}">
-                                                <img src="${slider.image}" alt="External Slider Image" style="width: 120px;" class="img-thumbnail"
-                                                   onerror="this.src='${pageContext.request.contextPath}/admin-theme/dist/img/no_image_available.jpg';">
-                                             </c:when>
-
+                                             <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/uploads/default/no_image_available.jpg"
+                                                   class="img-lg img-bordered-sm img-rounded float-none d-inline-block">
+                                             </c:otherwise>
                                           </c:choose>
                                        </td>
 

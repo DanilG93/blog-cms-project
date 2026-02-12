@@ -19,8 +19,8 @@
                   <div class="col-sm-6">
                      <h1>My Profile</h1>
                   </div>
-                  
-                   <div class="col-sm-6">
+
+                  <div class="col-sm-6">
                      <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
                            <a href="${pageContext.request.contextPath}/administration">Home</a>
@@ -42,12 +42,12 @@
 
                   <div class="row">
 
-                   
+
                      <div class="col-md-4">
-                        <div class="card card-primary card-outline">
+                        <div class="card card-info card-outline">
                            <div class="card-body box-profile">
                               <div class="text-center">
-                                
+
                                  <c:choose>
                                     <c:when test="${not empty user.image}">
                                        <img src="${pageContext.request.contextPath}/uploads/users/${user.image}" class="profile-user-img img-fluid img-circle"
@@ -61,14 +61,14 @@
                                  </c:choose>
                               </div>
 
-                              <h3 class="profile-username text-center">${user.name} ${user.surname}</h3>
+                              <h3 class="profile-username text-center">${user.name}${user.surname}</h3>
                               <p class="text-muted text-center">@${user.username}</p>
 
                               <ul class="list-group list-group-unbordered mb-3">
                                  <li class="list-group-item">
                                     <b>Username</b>
                                     <a class="float-right">${user.username}</a>
-                                  
+
                                     <form:hidden path="username" />
                                  </li>
                                  <li class="list-group-item">
@@ -81,24 +81,26 @@
                                  </li>
                                  <li class="list-group-item">
                                     <b>Status</b>
-                                    <span class="float-right badge badge-${user.enabled ? 'success' : 'danger'}"> ${user.enabled ? 'Active' : 'Banned'}
-                                    </span>
+                                    <span class="float-right badge badge-${user.enabled ? 'success' : 'danger'}"> ${user.enabled ? 'Active' : 'Banned'} </span>
                                     <form:hidden path="enabled" />
                                  </li>
                               </ul>
 
-                              <a href="${pageContext.request.contextPath}/administration/my-profile/change-password" class="btn btn-primary btn-block">
+                              <a href="${pageContext.request.contextPath}/administration/my-profile/change-password" class="btn btn-info btn-block">
                                  <b>Change Password</b>
                               </a>
                            </div>
                         </div>
                      </div>
 
-                     
+
                      <div class="col-md-8">
                         <div class="card">
-                           <div class="card-header p-2">
-                              <h3 class="card-title">Edit Personal Info</h3>
+                           <div class="card card-info">
+                              <div class="card-header">
+                                 <h3 class="card-title">Edit Personal Info</h3>
+                              </div>
+
                            </div>
                            <div class="card-body">
                               <div class="row">
@@ -138,7 +140,7 @@
 
                               <div class="form-group mt-4">
                                  <button type="submit" class="btn btn-success float-right">Save Changes</button>
-                                 <a href="${pageContext.request.contextPath}/administration/my-profile" class="btn btn-secondary">Cancel</a>
+                                 <a href="${pageContext.request.contextPath}/administration/users" class="btn btn-secondary">Cancel</a>
                               </div>
                            </div>
                         </div>

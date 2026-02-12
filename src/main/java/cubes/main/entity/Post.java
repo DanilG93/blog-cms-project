@@ -53,6 +53,7 @@ public class Post {
 	private String content;
 
 	@Column(nullable = false)
+	@NotBlank(message = "Please upload a featured image!")
 	private String image;
 
 	@Column(name = "created_at", nullable = false, updatable = false)

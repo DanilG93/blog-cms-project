@@ -2,13 +2,17 @@ package cubes.main.service.impl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import cubes.main.dao.SliderDAO;
 import cubes.main.entity.Slider;
 import cubes.main.service.SliderService;
+import cubes.main.util.MyUtil;
 
 @Service
 public class SliderServiceImpl implements SliderService {
@@ -71,11 +75,11 @@ public class SliderServiceImpl implements SliderService {
 	@Override
 	@Transactional
 	public void changeSliderOrder(int id, String direction) {
-		
+
 		List<Slider> list = sliderDAO.getSliders();
 
 		int currentIndex = -1;
-		
+
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId() == id) {
 				currentIndex = i;
@@ -133,6 +137,51 @@ public class SliderServiceImpl implements SliderService {
 			sliderDAO.saveOrUpdateSlider(slider);
 		}
 
+	}
+
+	@Override
+	@Transactional
+	public void saveSlider(Slider slider, MultipartFile file, HttpServletRequest request) {
+
+		if (slider.getId() == null) {
+			createSlider(slider, file, request);
+		} else {
+			updateSlider(slider, file, request);
+		}
+
+	}
+
+	private void createSlider(Slider slider, MultipartFile file, HttpServletRequest request) {
+
+		if (file != null && !file.isEmpty()) {
+			slider.setImage(MyUtil.saveImage(file, "sliders", request));
+		}
+
+		Integer maxOrder = sliderDAO.getMaxDisplayOrder();
+
+		if (maxOrder == null) {
+			slider.setDisplayOrder(1);
+		} else {
+			slider.setDisplayOrder(maxOrder + 1);
+		}
+
+		sliderDAO.saveOrUpdateSlider(slider);
+	}
+
+	private void updateSlider(Slider slider, MultipartFile file, HttpServletRequest request) {
+
+		Slider existingSlider = sliderDAO.getSliderById(slider.getId());
+
+		existingSlider.setTitle(slider.getTitle());
+		existingSlider.setButtonText(slider.getButtonText());
+		existingSlider.setButtonUrl(slider.getButtonUrl());
+		existingSlider.setEnabled(slider.getEnabled());
+
+		if (file != null && !file.isEmpty()) {
+			existingSlider.setImage(MyUtil.saveImage(file, "sliders", request));
+		}
+
+		sliderDAO.saveOrUpdateSlider(existingSlider);
 	}
 
 }

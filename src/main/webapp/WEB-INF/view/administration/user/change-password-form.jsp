@@ -44,7 +44,7 @@
 
 
                   <div class="col-md-4">
-                     <div class="card card-primary card-outline">
+                     <div class="card card-info card-outline">
                         <div class="card-body box-profile">
                            <div class="text-center">
                               <c:choose>
@@ -125,8 +125,9 @@
                            </div>
 
                            <div class="card-footer">
-                              <button type="submit" class="btn btn-warning">Update Password</button>
-                              <a href="${pageContext.request.contextPath}/administration/my-profile" class="btn btn-default float-right">Cancel</a>
+                              <a href="${pageContext.request.contextPath}/administration/my-profile" class="btn btn-default">Cancel</a>
+
+                              <button type="submit" class="btn btn-warning float-right">Update Password</button>
                            </div>
                         </form:form>
                      </div>

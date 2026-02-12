@@ -171,13 +171,16 @@
                                  <c:forEach var="post" items="${postList}">
                                     <tr>
                                        <td class="text-center align-middle">
-                                          <c:if test="${not empty post.image}">
-                                             <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" class="img-size-50"
-                                                onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
-                                          </c:if>
-                                          <c:if test="${empty post.image}">
-                                             <img src="${pageContext.request.contextPath}/uploads/default/no_image_available.jpg" class="img-size-50">
-                                          </c:if>
+                                          <c:choose>
+                                             <c:when test="${not empty post.image}">
+                                                <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" class="img-size-50 img-bordered-sm"
+                                                   onerror="this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
+                                             </c:when>
+                                             <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/uploads/default/no_image_available.jpg"
+                                                   class="img-size-50 img-bordered-sm">
+                                             </c:otherwise>
+                                          </c:choose>
                                        </td>
 
 

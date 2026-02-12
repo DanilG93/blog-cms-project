@@ -1,5 +1,6 @@
 package cubes.main.web.controller.administration;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cubes.main.entity.Slider;
@@ -62,13 +64,19 @@ public class SliderController {
 
 	@PostMapping("/save")
 	public String saveSlider(@Valid @ModelAttribute("slider") Slider slider, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
+			@RequestParam("file") MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes,
+			Model model) {
 
 		if (bindingResult.hasErrors()) {
 			return "administration/slider/slider-form";
 		}
 
-		sliderService.saveOrUpdateSlider(slider);
+		if (slider.getId() == null && file.isEmpty()) {
+			bindingResult.rejectValue("image", "error.slider", "Image is required for new slider!");
+			return "administration/slider/slider-form";
+		}
+
+		sliderService.saveSlider(slider, file, request);
 
 		redirectAttributes.addFlashAttribute("message", "You have successfully saved a slider");
 
