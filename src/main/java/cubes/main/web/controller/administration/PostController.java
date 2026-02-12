@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cubes.main.dto.PostSearch;
+import cubes.main.entity.Category;
 import cubes.main.entity.Post;
 import cubes.main.entity.Tag;
 import cubes.main.service.CategoryService;
@@ -87,14 +88,20 @@ public class PostController {
 			Principal principal, Model model) {
 
 		if (bindingResult.hasErrors()) {
-		
-			model.addAttribute("categoryList", categoryService.getCategories());
-			model.addAttribute("tagList", tagService.getTags());
-			model.addAttribute("authorList", userService.getUsers());
+
+			fillModelWithLists(model);
 
 			return "administration/post/post-form";
 		}
 
+		if (post.getId() == null && (file == null || file.isEmpty())) {
+
+			fillModelWithLists(model);
+
+			bindingResult.rejectValue("image", "error.post", "Please upload a featured image!");
+
+			return "administration/post/post-form";
+		}
 
 		postService.savePost(post, file, request, principal);
 
@@ -107,9 +114,7 @@ public class PostController {
 		Post post = postService.getPostById(id);
 
 		model.addAttribute("post", post);
-		model.addAttribute("categoryList", categoryService.getCategories());
-		model.addAttribute("tagList", tagService.getTags());
-		model.addAttribute("authorList", userService.getUsers());
+		fillModelWithLists(model);
 
 		return "administration/post/post-form";
 	}
@@ -137,6 +142,12 @@ public class PostController {
 		redirectAttributes.addFlashAttribute("message", "Post successfully deleted.");
 
 		return "redirect:/administration/posts";
+	}
+
+	private void fillModelWithLists(Model model) {
+		model.addAttribute("categoryList", categoryService.getCategories());
+		model.addAttribute("tagList", tagService.getTags());
+		model.addAttribute("authorList", userService.getUsers());
 	}
 
 }
