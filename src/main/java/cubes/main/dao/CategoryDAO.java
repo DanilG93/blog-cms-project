@@ -12,6 +12,8 @@ public interface CategoryDAO {
 	public void saveOrUpdateCategory(Category category);
 
 	public Category getCategoryById(Integer id);
+	
+	public Category getCategoryByName(String name);
 
 	public void deleteCategory(Integer id);
 	

@@ -22,20 +22,19 @@ public class Category {
 	@Column
 	private Integer id;
 
-	@Column(nullable = false, length = 50, unique = true)
-	@NotBlank
+	@Column(name = "name", length = 50, nullable = false, unique = true)
+	@NotBlank(message = "Category name cannot be empty.")
 	@Size(max = 50)
 	private String name;
 
 	@Column(length = 500)
-    @Size(max = 500)
+	@Size(max = 500)
 	private String description;
 
-	
 	@Column(name = "display_order", nullable = false)
 	private int displayOrder;
 
-	@Column(name = "seo_url", nullable = false, unique = true, length = 60)
+	@Column(name = "seo_url", length = 60, nullable = false, unique = true)
 	private String seoUrl;
 
 	@OneToMany(mappedBy = "category")

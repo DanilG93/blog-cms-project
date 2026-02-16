@@ -53,10 +53,11 @@ public class PostDAOImpl implements PostDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<?> query = session.createQuery("delete from Post where id = :postId");
-		query.setParameter("postId", id);
+		Post post = session.get(Post.class, id);
 
-		query.executeUpdate();
+		if (post != null) {
+			session.delete(post);
+		}
 
 	}
 
@@ -77,9 +78,9 @@ public class PostDAOImpl implements PostDAO {
 			params.put("catId", search.getCategoryId());
 		}
 
-		if (search.getAuthorId() != null) {
-			hql.append(" AND p.user.id = :authId");
-			params.put("authId", search.getAuthorId());
+		if (search.getAuthorUsername() != null && !search.getAuthorUsername().isEmpty()) {
+			hql.append(" AND p.user.username = :authUsername");
+			params.put("authUsername", search.getAuthorUsername());
 		}
 
 		if (search.getEnabled() != null) {
@@ -124,7 +125,8 @@ public class PostDAOImpl implements PostDAO {
 
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<Post> query = session.createQuery("FROM Post p WHERE p.enabled = true ORDER BY p.createdAt DESC", Post.class);
+		Query<Post> query = session.createQuery("FROM Post p WHERE p.enabled = true ORDER BY p.createdAt DESC",
+				Post.class);
 
 		query.setMaxResults(limit);
 

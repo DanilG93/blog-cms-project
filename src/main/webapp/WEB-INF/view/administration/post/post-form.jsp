@@ -89,7 +89,7 @@
 
                                     <div class="form-group">
                                        <label>Tags</label>
-                                       <form:select path="tags" class="form-control select2" multiple="true" style="width: 100%;">
+                                       <form:select path="tags" class="form-control select2" multiple="true" style="width: 100%;" data-placeholder="No Tags">
                                           <form:options items="${tagList}" itemValue="id" itemLabel="name" />
                                        </form:select>
 

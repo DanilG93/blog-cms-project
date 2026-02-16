@@ -60,10 +60,12 @@
                               <div class="form-group">
                                  <label>Category Name</label> 
                                  <form:input path="name" cssClass="form-control" placeholder="Enter name"/>
+                                 <form:errors path="name" class="text-danger help-block" />
                               </div>
                               <div class="form-group">
                                  <label>Desription</label>
                                  <form:textarea path="description" cssClass="form-control" rows="3" />
+                                 <form:errors path="description" class="text-danger help-block" />
                               </div>
                            </div>
                            <!-- /.card-body -->

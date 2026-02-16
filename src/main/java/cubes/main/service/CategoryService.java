@@ -9,6 +9,8 @@ public interface CategoryService {
 	public List<Category> getCategories();
 
 	public void saveOrUpdateCategory(Category category);
+	
+	public Category getCategoryByName(String name);
 
 	public Category getCategoryById(Integer id);
 

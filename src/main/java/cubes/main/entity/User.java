@@ -1,7 +1,10 @@
 package cubes.main.entity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,12 +26,10 @@ public class User {
 
 	@Id
 	@Column(length = 50)
-	@NotBlank(message = "Username is required")
 	@Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
 	private String username;
 
 	@Column(nullable = false, length = 68)
-	@NotBlank(message = "Password is required")
 	private String password;
 
 	@Column(nullable = false, unique = true, length = 100)
@@ -52,7 +54,7 @@ public class User {
 	@NotBlank(message = "Phone number is required")
 	@Size(min = 6, max = 20, message = "Phone number format is not valid")
 	private String phone;
-	
+
 	@Column
 	private String image;
 
@@ -130,6 +132,19 @@ public class User {
 
 	public Set<Role> getAuthorities() {
 		return authorities;
+	}
+
+	@Transient
+	public List<String> getRolesList() {
+
+		List<String> roles = new ArrayList<>();
+
+		if (this.authorities != null) {
+
+			roles = this.authorities.stream().map(role -> role.getAuthority()).collect(Collectors.toList());
+		}
+
+		return roles;
 	}
 
 	public void setAuthorities(Set<Role> authorities) {

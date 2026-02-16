@@ -65,4 +65,11 @@ public class TagServiceImpl implements TagService {
 		return tagDAO.getTagCount();
 	}
 
+	@Override
+	@Transactional
+	public Tag getTagByName(String name) {
+		
+		return tagDAO.getTagByName(name);
+	}
+
 }

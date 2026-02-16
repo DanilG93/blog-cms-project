@@ -36,6 +36,34 @@ $(document).ready(function() {
 		bsCustomFileInput.init();
 	}
 
+	
+	// --- LOGIKA ZA TAGOVE ---
+
+	// 1. Funkcija za otključavanje forme (izdvojena da bi bila čista)
+	function unlockTagForm() {
+		$('#tag-overlay').fadeOut(); // Lepši efekat nestajanja
+		$('.tag-actions').hide();
+		$('#tagName').focus();
+
+		// Breadcrumb logika
+		var tagsLabel = $('#breadcrumb-tags-label');
+		if (tagsLabel.length > 0) {
+			tagsLabel.removeClass('active');
+			$('#breadcrumb-list').append('<li class="breadcrumb-item active">Add</li>');
+		}
+	}
+
+	// 2. Event listener za klik na dugme "Add New Tag"
+	$('#btn-unlock-tag').on('click', function() {
+		unlockTagForm();
+	});
+
+	// 3. Automatsko otvaranje ako postoje greške u validaciji
+	// Proveravamo da li onaj skriveni input iz Koraka 1 postoji
+	if ($('#has-validation-errors').length > 0) {
+		unlockTagForm();
+	}
+
 	//  AUTO-ACTIVE MENU (za navigacuju da ako je aktivno ostane otvoreno..)
 	var currentUrl = window.location.href.split(/[?#]/)[0];
 	$('.nav-sidebar a').each(function() {
@@ -48,15 +76,15 @@ $(document).ready(function() {
 
 	//Checking if there is at least one role (User Form logic)
 	$(document).on('change', 'input[name="roles"]', function() {
-		
+
 		var checkedCount = $('input[name="roles"]:checked').length;
 
-		
+
 		if (checkedCount === 0) {
-			
+
 			$('input[value="ROLE_BLOGGER"]').prop('checked', true);
 
-			
+
 			console.log("User must have at least one role. Automatically returned BLOGGER.");
 		}
 	});

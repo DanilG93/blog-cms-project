@@ -38,25 +38,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/front-theme/**",
 				"/uploads/**").permitAll()
 		
-				.antMatchers("/administration/**").hasAnyRole("BLOGGER", "ADMIN")
+		.antMatchers("/administration/users/**").hasRole("ADMIN")
+        .antMatchers("/administration/sliders/**").hasRole("ADMIN")
+        .antMatchers("/administration/categories/**").hasRole("ADMIN")
 				
+        
+        .antMatchers("/administration/posts/**").hasAnyRole("ADMIN", "BLOGGER")
+        .antMatchers("/administration/tags/**").hasAnyRole("ADMIN", "BLOGGER")
+        .antMatchers("/administration/contact-messages/**").hasAnyRole("ADMIN", "BLOGGER")
+        .antMatchers("/administration/comments/**").hasAnyRole("ADMIN", "BLOGGER")
+        
+        .antMatchers("/administration/**").authenticated()
+        
+        
 				.and().formLogin()
 				.loginPage("/login")
 	            .loginProcessingUrl("/authenticateTheUser")
 	            .defaultSuccessUrl("/administration/", true)
 	            .permitAll()
 
-	            .and()
-	            .logout()
-	                .logoutUrl("/logout") // URL koji trigera logout
-	                .logoutSuccessUrl("/") // <--- Gde te šalje posle logout-a (NA GLAVNU)
-	                .invalidateHttpSession(true) // Briše sesiju
-	                .deleteCookies("JSESSIONID") // Briše kolačić
+	            .and().logout()
+	                .logoutUrl("/logout")
+	                .logoutSuccessUrl("/")
+	                .invalidateHttpSession(true)
+	                .deleteCookies("JSESSIONID")
 	                .permitAll();
 	            
 		
 		http.headers().cacheControl();
-		
 		http.cors().and().csrf().disable();
 
 	}

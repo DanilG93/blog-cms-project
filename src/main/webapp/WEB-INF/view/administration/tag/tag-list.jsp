@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,9 +92,11 @@
                                              <a href="${pageContext.request.contextPath}/administration/tags/edit/${t.id}" class="btn btn-sm btn-info">
                                                 <i class="fas fa-edit"></i>
                                              </a>
-                                             <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-modal-${t.id}">
-                                                <i class="fas fa-trash"></i>
-                                             </button>
+                                             <sec:authorize access="hasRole('ADMIN')">
+                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete-modal-${t.id}">
+                                                   <i class="fas fa-trash"></i>
+                                                </button>
+                                             </sec:authorize>
                                           </div>
                                        </td>
                                     </tr>

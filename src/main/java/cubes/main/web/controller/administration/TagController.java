@@ -1,8 +1,11 @@
 package cubes.main.web.controller.administration;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +34,21 @@ public class TagController {
 	}
 
 	@PostMapping("/save")
-	public String saveTag(@ModelAttribute("tag") Tag tag) {
+	public String saveTag(@Valid @ModelAttribute("tag") Tag tag, BindingResult bindingResult, Model model) {
+
+		Tag existingTag = tagService.getTagByName(tag.getName());
+
+		if (existingTag != null && (tag.getId() == null || !existingTag.getId().equals(tag.getId()))) {
+			bindingResult.rejectValue("name", "error.tag", "Tag with this name already exists!");
+		}
+
+		if (bindingResult.hasErrors()) {
+
+			model.addAttribute("tagList", tagService.getTags());
+			model.addAttribute("showForm", true);
+
+			return "administration/tag/tag-list";
+		}
 
 		tagService.saveOrUpdateTag(tag);
 
@@ -42,7 +59,6 @@ public class TagController {
 	public String editTag(@PathVariable int id, Model model) {
 
 		model.addAttribute("tagList", tagService.getTags());
-
 		model.addAttribute("tag", tagService.getTagById(id));
 
 		return "administration/tag/tag-list";
@@ -50,6 +66,7 @@ public class TagController {
 
 	@PostMapping("/delete")
 	public String deleteTag(@RequestParam int id) {
+
 		tagService.deleteTag(id);
 
 		return "redirect:/administration/tags/";

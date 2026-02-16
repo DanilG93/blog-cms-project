@@ -35,7 +35,7 @@
 
 
                   <div class="media-body">
-                     <h3 class="dropdown-item-title">${currentUser.name}${currentUser.surname}</h3>
+                     <h3 class="dropdown-item-title">${currentUser.name}&nbsp;${currentUser.surname}</h3>
                      <p class="text-sm text-muted">${currentUser.username}</p>
                   </div>
                </div>

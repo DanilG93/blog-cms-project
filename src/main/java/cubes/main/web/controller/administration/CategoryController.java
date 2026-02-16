@@ -56,6 +56,12 @@ public class CategoryController {
 	public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes) {
 
+		Category existing = categoryService.getCategoryByName(category.getName());
+
+		if (existing != null && (category.getId() == null || !existing.getId().equals(category.getId()))) {
+			bindingResult.rejectValue("name", "error.category", "Category with this name already exists!");
+		}
+
 		if (bindingResult.hasErrors()) {
 			return "administration/category/category-form";
 		}
@@ -79,13 +85,8 @@ public class CategoryController {
 	@PostMapping("/delete")
 	public String deleteCategory(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
 
-		try {
-			categoryService.deleteCategory(id);
-			redirectAttributes.addFlashAttribute("message", "Category successfully deleted.");
-		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("errorMessage",
-					"ERROR: You cannot delete this category because there are posts related to it! Delete or move those posts first.");
-		}
+		categoryService.deleteCategory(id);
+		redirectAttributes.addFlashAttribute("message", "Category successfully deleted.");
 
 		return "redirect:/administration/categories";
 	}

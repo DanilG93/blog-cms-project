@@ -60,6 +60,7 @@
                                     <div class="form-group">
                                        <label>Surname</label>
                                        <form:input path="surname" cssClass="form-control" placeholder="Enter surname" />
+                                       <form:errors path="surname" cssClass="text-danger" />
                                     </div>
                                  </div>
                               </div>
@@ -71,6 +72,7 @@
                               <div class="form-group">
                                  <label>Phone</label>
                                  <form:input path="phone" cssClass="form-control" placeholder="Phone number" />
+                                 <form:errors path="phone" cssClass="text-danger" />
                               </div>
                            </div>
                         </div>
@@ -96,13 +98,23 @@
                                  <form:errors path="username" cssClass="text-danger" />
                               </div>
 
-                              <c:if test="${empty user.username}">
-                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <form:input path="password" type="password" cssClass="form-control" autocomplete="new-password" />
-                                    <form:errors path="password" cssClass="text-danger" />
-                                 </div>
-                              </c:if>
+                              <div class="form-group">
+                                 <label>Password</label>
+
+                                 <c:choose>
+
+                                    <c:when test="${empty user.username}">
+                                       <form:password path="password" cssClass="form-control" placeholder="Enter password" />
+                                       <form:errors path="password" cssClass="text-danger" />
+                                    </c:when>
+
+
+                                    <c:otherwise>
+                                       <input type="password" class="form-control" value="********" disabled="disabled" />
+                                       <small class="text-muted">To change password, please use "Change Password" page.</small>
+                                    </c:otherwise>
+                                 </c:choose>
+                              </div>
 
                               <div class="form-group">
                                  <label>Status</label>
@@ -117,7 +129,7 @@
                                  <c:forEach var="role" items="${roleList}">
                                     <div class="form-check">
                                        <input class="form-check-input" type="checkbox" name="roles" value="${role.authority}"
-                                          ${user.authorities.toString().contains(role.authority) ? 'checked' : ''}>
+                                          ${user.rolesList.contains(role.authority) ? 'checked' : ''}>
                                        <label class="form-check-label"> ${role.authority.replace('ROLE_', '')} </label>
                                     </div>
                                  </c:forEach>

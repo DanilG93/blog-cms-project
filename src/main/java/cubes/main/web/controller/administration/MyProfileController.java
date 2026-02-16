@@ -3,6 +3,7 @@ package cubes.main.web.controller.administration;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import cubes.main.dto.PasswordDTO;
 import cubes.main.entity.User;
@@ -37,8 +39,21 @@ public class MyProfileController {
 	}
 
 	@PostMapping("/save")
-	public String saveMyProfile(@ModelAttribute("user") User user, @RequestParam("file") MultipartFile file,
-			HttpServletRequest request) {
+	public String saveMyProfile(@Valid @ModelAttribute("user") User user, BindingResult bindingResult,
+			@RequestParam("file") MultipartFile file, HttpServletRequest request, Model model) {
+
+		if (bindingResult.hasErrors()) {
+
+			User currentUser = userService.getUserByUsername(user.getUsername());
+
+			user.setUsername(currentUser.getUsername());
+			user.setName(currentUser.getName());
+			user.setSurname(currentUser.getSurname());
+			user.setImage(currentUser.getImage());
+			user.setAuthorities(currentUser.getAuthorities());
+
+			return "administration/user/my-profile-form";
+		}
 
 		userService.saveMyProfile(user, file, request);
 
@@ -62,6 +77,9 @@ public class MyProfileController {
 		boolean success = userService.changePassword(principal.getName(), passwordDTO);
 
 		if (!success) {
+			User user = userService.getUserByUsername(principal.getName());
+			model.addAttribute("user", user);
+			model.addAttribute("passwordDTO", new PasswordDTO());
 			model.addAttribute("error", "Check the entered data (old password or mismatch of new ones).");
 			return "administration/user/change-password-form";
 		}

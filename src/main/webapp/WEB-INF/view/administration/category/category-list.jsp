@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,7 +85,7 @@
                               <c:if test="${not empty message}">
                                  <div class="alert alert-success">${message}</div>
                               </c:if>
-                              
+
                               <c:if test="${not empty errorMessage}">
                                  <div class="alert alert-danger">${errorMessage}</div>
                               </c:if>
@@ -162,6 +163,7 @@
                                        <td class="align-middle">${category.description}</td>
 
                                        <td class="align-middle">
+
                                           <div class="btn-group">
                                              <a href="${pageContext.request.contextPath}/administration/categories/edit/${category.id}" class="btn btn-info">
                                                 <i class="fas fa-edit"></i>
@@ -170,6 +172,7 @@
                                                 <i class="fas fa-trash"></i>
                                              </button>
                                           </div>
+
                                        </td>
                                     </tr>
 

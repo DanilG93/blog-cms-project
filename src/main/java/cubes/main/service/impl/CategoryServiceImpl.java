@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cubes.main.dao.CategoryDAO;
+import cubes.main.dao.PostDAO;
 import cubes.main.entity.Category;
+import cubes.main.entity.Post;
 import cubes.main.service.CategoryService;
 import cubes.main.util.MyUtil;
 
@@ -16,6 +18,8 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	private CategoryDAO categoryDAO;
+	@Autowired
+	private PostDAO postDAO;
 
 	@Override
 	@Transactional
@@ -72,10 +76,15 @@ public class CategoryServiceImpl implements CategoryService {
 
 		if (category != null) {
 
+			for (Post post : category.getPosts()) {
+				post.setCategory(null);
+				postDAO.saveOrUpdatePost(post);
+
+			}
+
 			int orderToDelete = category.getDisplayOrder();
 
 			categoryDAO.deleteCategory(id);
-
 			categoryDAO.shiftDisplayOrders(orderToDelete);
 		}
 
@@ -134,8 +143,15 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public Long getCategoryCount() {
-		
+
 		return categoryDAO.getCategoryCount();
+	}
+
+	@Override
+	@Transactional
+	public Category getCategoryByName(String name) {
+
+		return categoryDAO.getCategoryByName(name);
 	}
 
 }

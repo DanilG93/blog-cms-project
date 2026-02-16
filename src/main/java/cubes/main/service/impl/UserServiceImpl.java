@@ -109,8 +109,9 @@ public class UserServiceImpl implements UserService {
 		existingUser.setSurname(user.getSurname());
 		existingUser.setEmail(user.getEmail());
 		existingUser.setPhone(user.getPhone());
+		existingUser.setEnabled(user.isEnabled());
 
-		mapRoles(user, roles);
+		mapRoles(existingUser, roles);
 
 		if (file != null && !file.isEmpty()) {
 			existingUser.setImage(MyUtil.saveImage(file, "users", request));

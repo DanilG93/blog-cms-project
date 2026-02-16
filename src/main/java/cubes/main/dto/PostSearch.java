@@ -4,7 +4,7 @@ public class PostSearch {
 
 	private String title;
 	private Integer categoryId;
-	private Integer authorId;
+	private String authorUsername;
 	private Boolean enabled;
 
 	public PostSearch() {
@@ -27,12 +27,12 @@ public class PostSearch {
 		this.categoryId = categoryId;
 	}
 
-	public Integer getAuthorId() {
-		return authorId;
+	public String getAuthorUsername() {
+		return authorUsername;
 	}
 
-	public void setAuthorId(Integer authorId) {
-		this.authorId = authorId;
+	public void setAuthorUsername(String authorUsername) {
+		this.authorUsername = authorUsername;
 	}
 
 	public Boolean getEnabled() {

@@ -47,13 +47,13 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public void deleteCategory(Integer id) {
-
 		Session session = sessionFactory.getCurrentSession();
 
-		Query<?> query = session.createQuery("delete from Category where id = :categoryId");
-		query.setParameter("categoryId", id);
+		Category category = session.get(Category.class, id);
 
-		query.executeUpdate();
+		if (category != null) {
+			session.delete(category);
+		}
 
 	}
 
@@ -82,7 +82,6 @@ public class CategoryDAOImpl implements CategoryDAO {
 	public void shiftDisplayOrders(int deletedOrder) {
 		Session session = sessionFactory.getCurrentSession();
 
-		
 		String hql = "UPDATE Category c SET c.displayOrder = c.displayOrder - 1 "
 				+ "WHERE c.displayOrder > :deletedOrder";
 
@@ -101,7 +100,13 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 		return query.getSingleResult();
 	}
-	
-	
+
+	@Override
+	public Category getCategoryByName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Category> query = session.createQuery("from Category where name = :name", Category.class);
+		query.setParameter("name", name);
+		return query.uniqueResult();
+	}
 
 }

@@ -2,6 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,14 +73,20 @@
 
                                  <div class="timeline-body">${contactMessage.message}</div>
                                  <div class="timeline-footer">
-                                 
-                                    <c:if test="${!contactMessage.isRead}">
-                                       <a href="${pageContext.request.contextPath}/administration/messages/mark-read?id=${contactMessage.id}"
-                                          class="btn btn-primary btn-sm"> Mark as read </a>
-                                    </c:if>
 
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal-${contactMessage.id}">
-                                       Delete</button>
+
+                                    <sec:authorize access="hasRole('ADMIN')">
+                                       <c:if test="${!contactMessage.isRead}">
+                                          <a href="${pageContext.request.contextPath}/administration/messages/mark-read?id=${contactMessage.id}"
+                                             class="btn btn-primary btn-sm"> Mark as read </a>
+                                       </c:if>
+
+
+                                       <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal-${contactMessage.id}">
+                                          Delete</button>
+
+                                    </sec:authorize>
+
                                  </div>
                               </div>
                            </div>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,9 +26,16 @@
                         <li class="breadcrumb-item">
                            <a href="${pageContext.request.contextPath}/administration">Home</a>
                         </li>
-                        <li class="breadcrumb-item">
-                           <a href="${pageContext.request.contextPath}/administration/users">Bloggers</a>
-                        </li>
+                        <sec:authorize access="hasRole('ADMIN')">
+                           <li class="breadcrumb-item">
+                              <a href="${pageContext.request.contextPath}/administration/users">Bloggers</a>
+                           </li>
+                        </sec:authorize>
+
+                        <sec:authorize access="!hasRole('ADMIN')">
+                           <li class="breadcrumb-item active">Bloggers</li>
+                        </sec:authorize>
+
                         <li class="breadcrumb-item">
                            <a href="${pageContext.request.contextPath}/administration/my-profile">My Profile</a>
                         </li>
@@ -60,7 +68,7 @@
                               </c:choose>
                            </div>
 
-                           <h3 class="profile-username text-center">${user.name}${user.surname}</h3>
+                           <h3 class="profile-username text-center">${user.name}&nbsp;${user.surname}</h3>
                            <p class="text-muted text-center">@${user.username}</p>
 
                            <ul class="list-group list-group-unbordered mb-3">

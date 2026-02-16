@@ -80,7 +80,7 @@
                                  <div class="col-md-3">
                                     <div class="form-group">
                                        <label>Author</label>
-                                       <form:select path="authorId" class="form-control">
+                                       <form:select path="authorUsername" class="form-control">
                                           <form:option value="" label="-- All Authors --" />
                                           <c:forEach items="${authorList}" var="author">
                                              <form:option value="${author.username}">${author.name} ${author.surname}</form:option>
@@ -136,6 +136,13 @@
                               <div class="alert alert-success m-3 alert-dismissible">
                                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                  ${message}
+                              </div>
+                           </c:if>
+
+                           <c:if test="${not empty errorMessage}">
+                              <div class="alert alert-danger m-3 alert-dismissible">
+                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                 <i class="icon fas fa-ban"></i> ${errorMessage}
                               </div>
                            </c:if>
 
@@ -237,18 +244,28 @@
                                           </small>
                                        </td>
 
-                                       <td class="text-center align-middle">
-                                          <div class="btn-group">
-                                             <a href="${pageContext.request.contextPath}/administration/posts/edit/${post.id}" class="btn btn-info btn-sm"
-                                                title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                             </a>
 
-                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal-${post.id}"
-                                                title="Delete">
-                                                <i class="fas fa-trash"></i>
-                                             </button>
-                                          </div>
+                                       <td class="text-center align-middle">
+
+                                          <c:if test="${post.user.username == currentUser.username or pageContext.request.isUserInRole('ROLE_ADMIN')}">
+                                             <div class="btn-group">
+                                                <a href="${pageContext.request.contextPath}/administration/posts/edit/${post.id}" class="btn btn-info btn-sm"
+                                                   title="Edit">
+                                                   <i class="fas fa-edit"></i>
+                                                </a>
+
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete-modal-${post.id}"
+                                                   title="Delete">
+                                                   <i class="fas fa-trash"></i>
+                                                </button>
+                                             </div>
+                                          </c:if>
+
+
+                                          <c:if test="${post.user.username != currentUser.username and !pageContext.request.isUserInRole('ROLE_ADMIN')}">
+                                             <i class="fas fa-lock text-muted" title="No permission to edit/delete"></i>
+                                          </c:if>
+
                                        </td>
                                     </tr>
 

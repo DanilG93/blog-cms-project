@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cubes.main.dto.PostSearch;
-import cubes.main.entity.Category;
 import cubes.main.entity.Post;
 import cubes.main.entity.Tag;
 import cubes.main.service.CategoryService;
@@ -109,9 +108,15 @@ public class PostController {
 	}
 
 	@GetMapping("/edit/{id}")
-	public String getEditForm(@PathVariable("id") Integer id, Model model) {
+	public String getEditForm(@PathVariable("id") Integer id, Principal principal, HttpServletRequest request,
+			RedirectAttributes redirectAttributes, Model model) {
 
 		Post post = postService.getPostById(id);
+
+		if (!isAuthorized(post, principal, request)) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Permission denied!");
+			return "redirect:/administration/posts";
+		}
 
 		model.addAttribute("post", post);
 		fillModelWithLists(model);
@@ -120,7 +125,15 @@ public class PostController {
 	}
 
 	@GetMapping("/toggle-important/{id}")
-	public String togleToChangeImpotrant(@PathVariable("id") Integer id) {
+	public String togleToChangeImpotrant(@PathVariable("id") Integer id, Principal principal,
+			HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+		Post post = postService.getPostById(id);
+
+		if (!isAuthorized(post, principal, request)) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Permission denied!");
+			return "redirect:/administration/posts";
+		}
 
 		postService.changeImportant(id);
 
@@ -128,15 +141,31 @@ public class PostController {
 	}
 
 	@GetMapping("/toggle-enabled/{id}")
-	public String togleToChangeEnabled(@PathVariable("id") Integer id) {
-
+	public String togleToChangeEnabled(@PathVariable("id") Integer id, Principal principal, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
+		
+		Post post = postService.getPostById(id);
+		
+		if (!isAuthorized(post, principal, request)) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Permission denied!");
+			return "redirect:/administration/posts";
+		}
+		
 		postService.changeEnabled(id);
 
 		return "redirect:/administration/posts";
 	}
 
 	@PostMapping("/delete")
-	public String deletePost(@RequestParam Integer id, RedirectAttributes redirectAttributes) {
+	public String deletePost(@RequestParam Integer id, Principal principal, HttpServletRequest request,
+			RedirectAttributes redirectAttributes) {
+
+		Post post = postService.getPostById(id);
+
+		if (!isAuthorized(post, principal, request)) {
+			redirectAttributes.addFlashAttribute("errorMessage", "You are not authorized to delete this post!");
+			return "redirect:/administration/posts";
+		}
 
 		postService.deletePost(id);
 		redirectAttributes.addFlashAttribute("message", "Post successfully deleted.");
@@ -148,6 +177,10 @@ public class PostController {
 		model.addAttribute("categoryList", categoryService.getCategories());
 		model.addAttribute("tagList", tagService.getTags());
 		model.addAttribute("authorList", userService.getUsers());
+	}
+
+	private boolean isAuthorized(Post post, Principal principal, HttpServletRequest request) {
+		return post.getUser().getUsername().equals(principal.getName()) || request.isUserInRole("ROLE_ADMIN");
 	}
 
 }

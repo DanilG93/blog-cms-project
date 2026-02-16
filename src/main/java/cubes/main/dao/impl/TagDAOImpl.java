@@ -71,4 +71,12 @@ public class TagDAOImpl implements TagDAO {
 		return query.getSingleResult();
 	}
 
+	@Override
+	public Tag getTagByName(String name) {
+		Session session = sessionFactory.getCurrentSession();
+		Query<Tag> query = session.createQuery("from Tag where name = :name", Tag.class);
+		query.setParameter("name", name);
+		return query.uniqueResult();
+	}
+
 }

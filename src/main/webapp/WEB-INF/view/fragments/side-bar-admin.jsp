@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand">
@@ -23,30 +24,33 @@
                </a>
             </li>
 
-            <li class="nav-header text-bold pt-2 pb-1">MEDIA &amp; SLIDERS</li>
-            <li class="nav-item has-treeview">
-               <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-images"></i>
-                  <p>
-                     Slider Management <i class="right fas fa-angle-left"></i>
-                  </p>
-               </a>
 
-               <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                     <a href="${pageContext.request.contextPath}/administration/sliders" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>All Slides</p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="${pageContext.request.contextPath}/administration/sliders/add" class="nav-link">
-                        <i class="fas fa-plus nav-icon text-success"></i>
-                        <p>Add New Slide</p>
-                     </a>
-                  </li>
-               </ul>
-            </li>
+            <sec:authorize access="hasRole('ADMIN')">
+               <li class="nav-header text-bold pt-2 pb-1">MEDIA &amp; SLIDERS</li>
+               <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link">
+                     <i class="nav-icon fas fa-images"></i>
+                     <p>
+                        Slider Management <i class="right fas fa-angle-left"></i>
+                     </p>
+                  </a>
+
+                  <ul class="nav nav-treeview">
+                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/administration/sliders" class="nav-link">
+                           <i class="far fa-circle nav-icon"></i>
+                           <p>All Slides</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/administration/sliders/add" class="nav-link">
+                           <i class="fas fa-plus nav-icon text-success"></i>
+                           <p>Add New Slide</p>
+                        </a>
+                     </li>
+                  </ul>
+               </li>
+            </sec:authorize>
 
             <li class="nav-header text-bold pt-2 pb-1">CONTENT MANAGEMENT</li>
             <li class="nav-item has-treeview menu-open">
@@ -72,18 +76,20 @@
 
                   <li class="nav-header pt-1 pb-0 text-muted" style="font-size: 0.7rem; padding-left: 1rem;">ORGANIZATION</li>
 
-                  <li class="nav-item">
-                     <a href="${pageContext.request.contextPath}/administration/categories" class="nav-link">
-                        <i class="far fa-list-alt nav-icon text-warning"></i>
-                        <p>Categories List</p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="${pageContext.request.contextPath}/administration/categories/add" class="nav-link">
-                        <i class="fas fa-plus-square nav-icon text-warning"></i>
-                        <p>Add Category</p>
-                     </a>
-                  </li>
+                  <sec:authorize access="hasRole('ADMIN')">
+                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/administration/categories" class="nav-link">
+                           <i class="far fa-list-alt nav-icon text-warning"></i>
+                           <p>Categories List</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/administration/categories/add" class="nav-link">
+                           <i class="fas fa-plus-square nav-icon text-warning"></i>
+                           <p>Add Category</p>
+                        </a>
+                     </li>
+                  </sec:authorize>
 
                   <li class="nav-item">
                      <a href="${pageContext.request.contextPath}/administration/tags" class="nav-link">
@@ -133,29 +139,32 @@
                </ul>
             </li>
 
-            <li class="nav-header text-bold pt-2 pb-1">ADMINISTRATION</li>
-            <li class="nav-item has-treeview">
-               <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-users"></i>
-                  <p>
-                     User Management <i class="right fas fa-angle-left"></i>
-                  </p>
-               </a>
-               <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                     <a href="${pageContext.request.contextPath}/administration/users" class="nav-link">
-                        <i class="fas fa-user-friends nav-icon"></i>
-                        <p>Bloggers List</p>
-                     </a>
-                  </li>
-                  <li class="nav-item">
-                     <a href="${pageContext.request.contextPath}/administration/users/add" class="nav-link">
-                        <i class="fas fa-user-plus nav-icon text-success"></i>
-                        <p>Add New Blogger</p>
-                     </a>
-                  </li>
-               </ul>
-            </li>
+
+            <sec:authorize access="hasRole('ADMIN')">
+               <li class="nav-header text-bold pt-2 pb-1">ADMINISTRATION</li>
+               <li class="nav-item has-treeview">
+                  <a href="#" class="nav-link">
+                     <i class="nav-icon fas fa-users"></i>
+                     <p>
+                        User Management <i class="right fas fa-angle-left"></i>
+                     </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/administration/users" class="nav-link">
+                           <i class="fas fa-user-friends nav-icon"></i>
+                           <p>Bloggers List</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/administration/users/add" class="nav-link">
+                           <i class="fas fa-user-plus nav-icon text-success"></i>
+                           <p>Add New Blogger</p>
+                        </a>
+                     </li>
+                  </ul>
+               </li>
+            </sec:authorize>
 
             <li class="nav-header text-bold pt-2 pb-1">MY ACCOUNT</li>
             <li class="nav-item has-treeview">
@@ -167,7 +176,7 @@
                </a>
                <ul class="nav nav-treeview">
                   <li class="nav-item">
-                  
+
                      <a href="${pageContext.request.contextPath}/administration/my-profile" class="nav-link">
                         <i class="fas fa-id-card nav-icon"></i>
                         <p>Edit Personal Info</p>

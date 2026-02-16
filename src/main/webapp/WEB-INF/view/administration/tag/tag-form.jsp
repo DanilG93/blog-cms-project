@@ -18,6 +18,7 @@
          <div class="form-group">
             <label for="tagName">Tag Name</label>
             <form:input path="name" id="tagName" cssClass="form-control" placeholder="Enter tag name" />
+            <form:errors path="name" class="text-danger help-block" />
          </div>
       </div>
 
@@ -31,42 +32,18 @@
       </div>
    </form:form>
 
-   <c:if test="${tag.id == null || tag.id == 0}">
+   <c:if test="${(tag.id == null || tag.id == 0) && showForm == null}">
       <div class="overlay" id="tag-overlay" style="flex-direction: column;">
          <i class="fas fa-2x fa-lock mb-3" style="color: #adb5bd;"></i>
-         <button type="button" class="btn btn-success btn-lg" onclick="unlockTagForm()">
+         <button type="button" id="btn-unlock-tag" class="btn btn-success btn-lg">
             <i class="fas fa-plus"></i> CLICK TO ADD NEW TAG
          </button>
       </div>
    </c:if>
 </div>
 
-<script>
-	function unlockTagForm() {
-		var overlay = document.getElementById('tag-overlay');
-		if (overlay) {
-			overlay.style.display = 'none';
-		}
+<c:if test="${showForm}">
+   <input type="hidden" id="has-validation-errors" value="true">
+</c:if>
 
-		var actionElements = document.getElementsByClassName('tag-actions');
 
-		for (var i = 0; i < actionElements.length; i++) {
-			actionElements[i].style.display = 'none';
-		}
-
-		document.getElementById('tagName').focus();
-
-		var tagsLabel = document.getElementById('breadcrumb-tags-label');
-
-		if (tagsLabel) {
-
-			tagsLabel.classList.remove('active');
-
-			var newLi = document.createElement('li');
-			newLi.className = 'breadcrumb-item active';
-			newLi.innerText = 'Add';
-
-			document.getElementById('breadcrumb-list').appendChild(newLi);
-		}
-	}
-</script>

@@ -11,6 +11,8 @@ public interface TagService {
 	public void saveOrUpdateTag(Tag tag);
 
 	public Tag getTagById(Integer id);
+	
+	public Tag getTagByName(String name);
 
 	public void deleteTag(Integer id);
 	
