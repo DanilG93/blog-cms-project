@@ -19,7 +19,7 @@
             <li class="nav-header text-bold pt-0 pb-1">DASHBOARD</li>
             <li class="nav-item">
                <a href="${pageContext.request.contextPath}/administration" class="nav-link">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fas fa-tachometer-alt"></i>  
                   <p>Overview</p>
                </a>
             </li>
