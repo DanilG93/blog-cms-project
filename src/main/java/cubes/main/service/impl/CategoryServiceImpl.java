@@ -154,4 +154,11 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDAO.getCategoryByName(name);
 	}
 
+	@Override
+	@Transactional
+	public Category getCategoryByUrlSeo(String title) {
+		// TODO Auto-generated method stub
+		return categoryDAO.getCategoryByUrlSeo(title);
+	}
+
 }

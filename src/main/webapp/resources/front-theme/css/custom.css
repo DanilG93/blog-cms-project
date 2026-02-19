@@ -1,1 +1,78 @@
-/* your styles go here */
+h1, h2, h3, h4, p, a, strong {
+	word-break: break-all !important;
+	overflow-wrap: anywhere !important;
+	white-space: normal !important;
+}
+
+.content, .post, .post-details, .title {
+	min-width: 0 !important;
+	overflow: hidden;
+}
+
+.hero-slider-custom, #index-slider section.hero {
+	height: 600px !important;
+	min-height: 600px !important;
+	display: flex !important;
+	align-items: center !important;
+	background-position: center center !important;
+	background-size: cover !important;
+	background-repeat: no-repeat !important;
+	position: relative;
+	z-index: 1;
+	color: #fff;
+	width: 100%;
+}
+
+.post-thumbnail, .featured-posts .image {
+	width: 100% !important;
+	height: 230px !important;
+	overflow: hidden !important;
+	display: block !important;
+}
+
+.post-thumbnail img, .featured-posts .image img {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+	display: block !important;
+}
+
+.post-single .post-thumbnail, .post-details .post-thumbnail,
+	.post-single .post-thumbnail img {
+	height: auto !important;
+	max-height: none !important;
+	object-fit: initial !important;
+}
+
+.main-footer .post .image {
+	width: 55px !important;
+	height: 50px !important;
+	min-width: 55px !important;
+	margin-right: 10px !important;
+	overflow: hidden;
+}
+
+.main-footer .post .image img {
+	width: 100% !important;
+	height: 100% !important;
+	object-fit: cover !important;
+}
+
+.post-details h3, .post-details h3 a, .widget.latest-posts .title strong
+	{
+	display: -webkit-box !important;
+	-webkit-line-clamp: 2 !important;
+	-webkit-box-orient: vertical !important;
+	overflow: hidden !important;
+	line-height: 1.2em;
+	height: 2.4em;
+}
+
+.post-details p.text-muted, .featured-posts p {
+	display: -webkit-box !important;
+	-webkit-line-clamp: 3 !important;
+	-webkit-box-orient: vertical !important;
+	overflow: hidden !important;
+	line-height: 1.4em;
+	height: 4.2em;
+}

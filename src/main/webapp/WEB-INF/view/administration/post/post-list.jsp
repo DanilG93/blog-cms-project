@@ -62,8 +62,8 @@
 
                                  <div class="col-md-3">
                                     <div class="form-group">
-                                       <label>Title</label>
-                                       <form:input path="title" class="form-control" placeholder="Search by title" />
+                                       <label>Search Posts</label>
+                                       <form:input path="text" class="form-control" placeholder="Search title, desc, content..." />
                                     </div>
                                  </div>
 

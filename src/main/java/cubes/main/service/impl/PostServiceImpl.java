@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,18 +49,6 @@ public class PostServiceImpl implements PostService {
 	@Override
 	@Transactional
 	public void saveOrUpdatePost(Post post) {
-
-		if (post.getTags() != null) {
-			Set<Tag> persistTags = new LinkedHashSet<>();
-			for (Tag t : post.getTags()) {
-				Tag fullTag = tagDAO.getTagById(t.getId());
-				persistTags.add(fullTag);
-			}
-			post.setTags(persistTags);
-		}
-
-		post = generateSeoUrlForPost(post);
-
 		postDAO.saveOrUpdatePost(post);
 
 	}
@@ -68,6 +57,13 @@ public class PostServiceImpl implements PostService {
 	@Transactional
 	public Post getPostById(Integer id) {
 		return postDAO.getPostById(id);
+	}
+	
+	@Override
+	@Transactional
+	public Post getPostByUrlSeo(String title) {
+		
+		return postDAO.getPostByUrlSeo(title);
 	}
 
 	@Override
@@ -103,26 +99,25 @@ public class PostServiceImpl implements PostService {
 		return postDAO.search(search);
 	}
 
+	@Override
 	@Transactional
-	private Post generateSeoUrlForPost(Post post) {
+	public long getEnabledPostCount() {
 
-		String baseSeoUrl = MyUtil.generateSeoUrl(post.getTitle());
-		String finalSeoUrl = baseSeoUrl;
-		int counter = 1;
+		return postDAO.getEnabledPostCount();
 
-		while (postDAO.getPostByUrlSeo(finalSeoUrl) != null) {
-			Post existingSeoUrl = postDAO.getPostByUrlSeo(finalSeoUrl);
+	}
 
-			if (post.getId() != null && post.getId().equals(existingSeoUrl.getId())) {
-				break;
-			}
-			finalSeoUrl = baseSeoUrl + "-" + (counter++);
+	@Override
+	@Transactional
+	public List<Post> getEnabledPosts(int page, int pageSize) {
+
+		List<Post> posts = postDAO.getEnabledPosts(page, pageSize);
+
+		for (Post post : posts) {
+			Hibernate.initialize(post.getComments());
 		}
 
-		post.setSeoUrl(finalSeoUrl);
-
-		return post;
-
+		return posts;
 	}
 
 	@Override
@@ -130,19 +125,59 @@ public class PostServiceImpl implements PostService {
 	public Long getPostCount() {
 
 		return postDAO.getPostCount();
-
 	}
 
 	@Override
 	@Transactional
 	public List<Post> getRecentPosts(int limit) {
 
-		return postDAO.getRecentPosts(limit);
+		List<Post> posts = postDAO.getRecentPosts(limit);
+
+		for (Post post : posts) {
+			Hibernate.initialize(post.getComments());
+		}
+
+		return posts;
+	}
+
+	@Override
+	@Transactional
+	public List<Post> getImportantPosts(int limit) {
+		List<Post> posts = postDAO.getImportantPosts(limit);
+
+		for (Post post : posts) {
+			Hibernate.initialize(post.getComments());
+		}
+
+		return posts;
+	}
+
+	@Override
+	@Transactional
+	public List<Post> search(PostSearch search, int page, int pageSize) {
+
+		List<Post> posts = postDAO.search(search, page, pageSize);
+
+		for (Post post : posts) {
+			Hibernate.initialize(post.getComments());
+		}
+
+		return posts;
+	}
+
+	@Override
+	@Transactional
+	public long countSearch(PostSearch search) {
+
+		return postDAO.countSearch(search);
 	}
 
 	@Override
 	@Transactional
 	public void savePost(Post post, MultipartFile file, HttpServletRequest request, Principal principal) {
+
+		handleCategory(post);
+		handleTags(post);
 
 		if (post.getId() == null) {
 			createPost(post, file, request, principal);
@@ -150,13 +185,12 @@ public class PostServiceImpl implements PostService {
 			updatePost(post, file, request);
 		}
 
+		post = generateSeoUrlForPost(post);
+		postDAO.saveOrUpdatePost(post);
+
 	}
 
 	private void createPost(Post post, MultipartFile file, HttpServletRequest request, Principal principal) {
-
-		handleCategory(post);
-
-		handleTags(post);
 
 		if (file != null && !file.isEmpty()) {
 			String fileName = MyUtil.saveImage(file, "posts", request);
@@ -167,19 +201,11 @@ public class PostServiceImpl implements PostService {
 		User author = userDAO.getUserByUsername(username);
 		post.setUser(author);
 
-		post = generateSeoUrlForPost(post);
-
-		postDAO.saveOrUpdatePost(post);
-
 	}
 
 	private void updatePost(Post post, MultipartFile file, HttpServletRequest request) {
 
 		Post existingPost = postDAO.getPostById(post.getId());
-
-		handleCategory(post);
-
-		handleTags(post);
 
 		if (file != null && !file.isEmpty()) {
 			String fileName = MyUtil.saveImage(file, "posts", request);
@@ -191,8 +217,6 @@ public class PostServiceImpl implements PostService {
 		post.setUser(existingPost.getUser());
 		post.setViewCount(existingPost.getViewCount());
 
-		post = generateSeoUrlForPost(post);
-		postDAO.saveOrUpdatePost(post);
 	}
 
 	private void handleCategory(Post post) {
@@ -216,6 +240,27 @@ public class PostServiceImpl implements PostService {
 			}
 			post.setTags(persistTags);
 		}
+	}
+
+	private Post generateSeoUrlForPost(Post post) {
+
+		String baseSeoUrl = MyUtil.generateSeoUrl(post.getTitle());
+		String finalSeoUrl = baseSeoUrl;
+		int counter = 1;
+
+		while (postDAO.getPostByUrlSeo(finalSeoUrl) != null) {
+			Post existingSeoUrl = postDAO.getPostByUrlSeo(finalSeoUrl);
+
+			if (post.getId() != null && post.getId().equals(existingSeoUrl.getId())) {
+				break;
+			}
+			finalSeoUrl = baseSeoUrl + "-" + (counter++);
+		}
+
+		post.setSeoUrl(finalSeoUrl);
+
+		return post;
+
 	}
 
 }

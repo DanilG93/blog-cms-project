@@ -24,10 +24,16 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public List<Category> getCategories() {
 
-		List<Category> categoyList = sessionFactory.getCurrentSession()
-				.createQuery("from Category order by displayOrder", Category.class).getResultList();
+		String hql = 
+				"SELECT DISTINCT c FROM Category c " +
+                "LEFT JOIN FETCH c.posts " +
+                "ORDER BY c.displayOrder";
 
-		return categoyList;
+			List<Category> categoryList = sessionFactory.getCurrentSession()
+           .createQuery(hql, Category.class)
+           .getResultList();
+
+   return categoryList;
 	}
 
 	@Override

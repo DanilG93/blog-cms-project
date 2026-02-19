@@ -99,6 +99,7 @@ public class UserServiceImpl implements UserService {
 			user.setImage(MyUtil.saveImage(file, "users", request));
 		}
 
+		user = generateSeoUrlForPost(user);
 		userDAO.saveOrUpdateUser(user);
 	}
 
@@ -171,6 +172,34 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(encodedPasswordString);
 
 		return true;
+	}
+
+	@Override
+	@Transactional
+	public User getUserByUrlSeo(String title) {
+
+		return userDAO.getUserByUrlSeo(title);
+	}
+
+	private User generateSeoUrlForPost(User user) {
+
+		String baseSeoUrl = MyUtil.generateSeoUrl(user.getName());
+		String finalSeoUrl = baseSeoUrl;
+		int counter = 1;
+
+		while (userDAO.getUserByUrlSeo(finalSeoUrl) != null) {
+			User existingSeoUrl = userDAO.getUserByUrlSeo(finalSeoUrl);
+
+			if (user.getUsername() != null && user.getUsername().equals(existingSeoUrl.getUsername())) {
+				break;
+			}
+			finalSeoUrl = baseSeoUrl + "-" + (counter++);
+		}
+
+		user.setSeoUrl(finalSeoUrl);
+
+		return user;
+
 	}
 
 }

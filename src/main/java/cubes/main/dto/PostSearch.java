@@ -2,8 +2,9 @@ package cubes.main.dto;
 
 public class PostSearch {
 
-	private String title;
+	private String text;
 	private Integer categoryId;
+	private Integer tagId;
 	private String authorUsername;
 	private Boolean enabled;
 
@@ -11,12 +12,12 @@ public class PostSearch {
 
 	}
 
-	public String getTitle() {
-		return title;
+	public String getText() {
+		return text;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public Integer getCategoryId() {
@@ -25,6 +26,14 @@ public class PostSearch {
 
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
+	}
+
+	public Integer getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(Integer tagId) {
+		this.tagId = tagId;
 	}
 
 	public String getAuthorUsername() {

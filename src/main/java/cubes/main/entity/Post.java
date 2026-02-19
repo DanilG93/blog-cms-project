@@ -1,7 +1,9 @@
 package cubes.main.entity;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -25,6 +27,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -84,6 +87,7 @@ public class Post {
 	private Set<Tag> tags;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	@BatchSize(size = 20)
 	private List<Comment> comments;
 
 	public Post() {
@@ -210,6 +214,35 @@ public class Post {
 		}
 
 		return Date.from(this.createdAt.atZone(ZoneId.systemDefault()).toInstant());
+	}
+
+	public String getTimeAgo() {
+		if (createdAt == null) {
+			return "";
+		}
+
+		LocalDateTime now = LocalDateTime.now();
+		Duration duration = Duration.between(createdAt, now);
+
+		long seconds = duration.getSeconds();
+		long minutes = seconds / 60;
+		long hours = minutes / 60;
+		long days = hours / 24;
+
+		if (seconds < 60) {
+			return "Just now";
+		} else if (minutes < 60) {
+			return minutes + " minutes ago";
+		} else if (hours < 24) {
+			return hours + " hours ago";
+		} else if (days < 30) {
+			return days + " days ago";
+		} else if (days < 365) {
+			long months = days / 30;
+			return months + (months == 1 ? " month ago" : " months ago");
+		} else {
+			return createdAt.format(DateTimeFormatter.ofPattern("dd. MMM yyyy"));
+		}
 	}
 
 }

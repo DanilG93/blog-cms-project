@@ -68,8 +68,15 @@ public class TagServiceImpl implements TagService {
 	@Override
 	@Transactional
 	public Tag getTagByName(String name) {
-		
+
 		return tagDAO.getTagByName(name);
+	}
+
+	@Override
+	@Transactional
+	public Tag getTagByUrlSeo(String text) {
+
+		return tagDAO.getTagByUrlSeo(text);
 	}
 
 }

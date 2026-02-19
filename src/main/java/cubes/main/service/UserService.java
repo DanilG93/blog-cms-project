@@ -18,6 +18,8 @@ public interface UserService {
 	public void saveOrUpdateUser(User user);
 
 	public User getUserByUsername(String username);
+	
+	public User getUserByUrlSeo(String title);
 
 	public void deleteUser(String username);
 	

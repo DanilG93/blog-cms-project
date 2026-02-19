@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <footer class="main-footer">
    <div class="container">
@@ -9,37 +11,25 @@
             </div>
             <div class="contact-details">
                <p>53 Broadway, Broklyn, NY 11249</p>
-               <p>Phone: (020) 123 456 789</p>
+               <p>Phone: (381) 430 453 937</p>
                <p>
                   Email:
-                  <a href="mailto:info@company.com">Info@Company.com</a>
+                  <a href="mailto:danilogomanjuk93@gmail.com">danilogomanjuk93@gmail.com</a>
                </p>
                <ul class="social-menu">
+
                   <li class="list-inline-item">
-                     <a href="#">
-                        <i class="fa fa-facebook"></i>
+                     <a href="https://www.linkedin.com/in/danilgomanjuk/">
+                        <i class="fa fa-linkedin"></i>
                      </a>
                   </li>
+
                   <li class="list-inline-item">
-                     <a href="#">
-                        <i class="fa fa-twitter"></i>
+                     <a href="https://github.com/DanilG93/blog-cms-project">
+                        <i class="fa fa-github"></i>
                      </a>
                   </li>
-                  <li class="list-inline-item">
-                     <a href="#">
-                        <i class="fa fa-instagram"></i>
-                     </a>
-                  </li>
-                  <li class="list-inline-item">
-                     <a href="#">
-                        <i class="fa fa-behance"></i>
-                     </a>
-                  </li>
-                  <li class="list-inline-item">
-                     <a href="#">
-                        <i class="fa fa-pinterest"></i>
-                     </a>
-                  </li>
+
                </ul>
             </div>
          </div>
@@ -47,69 +37,46 @@
             <div class="menus d-flex">
                <ul class="list-unstyled">
                   <li>
-                     <a href="index.html">Home</a>
+                     <a href="${pageContext.request.contextPath}/">Home</a>
                   </li>
                   <li>
-                     <a href="blog.html">Blog</a>
+                     <a href="${pageContext.request.contextPath}/blog">Blog</a>
                   </li>
                   <li>
-                     <a href="contact.html">Contact</a>
+                     <a href="${pageContext.request.contextPath}/contact">Contact</a>
                   </li>
                   <li>
-                     <a href="#">Login</a>
+                     <a href="${pageContext.request.contextPath}/login">Login</a>
                   </li>
                </ul>
                <ul class="list-unstyled">
-                  <li>
-                     <a href="blog-category.html">Growth</a>
-                  </li>
-                  <li>
-                     <a href="blog-category.html">Local</a>
-                  </li>
-                  <li>
-                     <a href="blog-category.html">Sales</a>
-                  </li>
-                  <li>
-                     <a href="blog-category.html">Tips</a>
-                  </li>
+                  <c:forEach var="category" items="${categories}" begin="0" end="3">
+                     <li>
+                        <a href="${pageContext.request.contextPath}/blog-category/${category.seoUrl}">${category.name}</a>
+                     </li>
+                  </c:forEach>
                </ul>
             </div>
          </div>
          <div class="col-md-4">
             <div class="latest-posts">
-               <a href="blog-post.html">
-                  <div class="post d-flex align-items-center">
-                     <div class="image">
-                        <img src="${pageContext.request.contextPath}/front-theme/img/small-thumbnail-1.jpg" alt="..." class="img-fluid">
+
+               <c:forEach var="post" items="${firstThreeImportantPosts}">
+                  <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
+                     <div class="post d-flex align-items-center">
+                        <div class="image">
+                           <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" alt="${post.title}" class="img-fluid"
+                              onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
+                        </div>
+                        <div class="title">
+                           <strong>${post.title}</strong>
+                           <span class="date last-meta">
+                              <fmt:formatDate value="${post.createdAtAsDate}" pattern="MMMM dd, yyyy" />
+                           </span>
+                        </div>
                      </div>
-                     <div class="title">
-                        <strong>Hotels for all budgets</strong>
-                        <span class="date last-meta">October 26, 2016</span>
-                     </div>
-                  </div>
-               </a>
-               <a href="blog-post.html">
-                  <div class="post d-flex align-items-center">
-                     <div class="image">
-                        <img src="${pageContext.request.contextPath}/front-theme/img/small-thumbnail-2.jpg" alt="..." class="img-fluid">
-                     </div>
-                     <div class="title">
-                        <strong>Great street atrs in London</strong>
-                        <span class="date last-meta">October 26, 2016</span>
-                     </div>
-                  </div>
-               </a>
-               <a href="blog-post.html">
-                  <div class="post d-flex align-items-center">
-                     <div class="image">
-                        <img src="${pageContext.request.contextPath}/front-theme/img/small-thumbnail-3.jpg" alt="..." class="img-fluid">
-                     </div>
-                     <div class="title">
-                        <strong>Best coffee shops in Sydney</strong>
-                        <span class="date last-meta">October 26, 2016</span>
-                     </div>
-                  </div>
-               </a>
+                  </a>
+               </c:forEach>
             </div>
          </div>
       </div>
@@ -145,18 +112,3 @@
 
 
 <script src="${pageContext.request.contextPath}/front-theme/plugins/owl-carousel2/owl.carousel.min.js"></script>
-<script>
-	$("#index-slider").owlCarousel({
-		"items" : 1,
-		"loop" : true,
-		"autoplay" : true,
-		"autoplayHoverPause" : true
-	});
-
-	$("#latest-posts-slider").owlCarousel({
-		"items" : 1,
-		"loop" : true,
-		"autoplay" : true,
-		"autoplayHoverPause" : true
-	});
-</script>

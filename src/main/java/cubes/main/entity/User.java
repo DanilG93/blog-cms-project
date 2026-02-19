@@ -54,6 +54,9 @@ public class User {
 	@NotBlank(message = "Phone number is required")
 	@Size(min = 6, max = 20, message = "Phone number format is not valid")
 	private String phone;
+	
+	@Column(name = "seo_url", nullable = false, unique = true)
+	private String seoUrl;
 
 	@Column
 	private String image;
@@ -120,6 +123,15 @@ public class User {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+
+	public String getSeoUrl() {
+		return seoUrl;
+	}
+
+	public void setSeoUrl(String seoUrl) {
+		this.seoUrl = seoUrl;
 	}
 
 	public String getImage() {

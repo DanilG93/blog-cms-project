@@ -13,6 +13,8 @@ public interface CategoryService {
 	public Category getCategoryByName(String name);
 
 	public Category getCategoryById(Integer id);
+	
+	public Category getCategoryByUrlSeo(String title);
 
 	public void deleteCategory(Integer id);
 

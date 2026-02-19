@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import cubes.main.dao.UserDAO;
+import cubes.main.entity.Post;
 import cubes.main.entity.User;
 
 @Repository
@@ -65,6 +66,7 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> getUsers(int page, int pageSize) {
+
 		Session session = sessionFactory.getCurrentSession();
 
 		int start = (page - 1) * pageSize;
@@ -80,10 +82,22 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public long getUserCount() {
 		Session session = sessionFactory.getCurrentSession();
-		
+
 		long countUser = (long) session.createQuery("select count(u) from User u").uniqueResult();
-		
+
 		return countUser;
+	}
+
+	@Override
+	public User getUserByUrlSeo(String title) {
+		
+		Session session = sessionFactory.getCurrentSession();
+
+		Query<User> seoUrl = session.createQuery("FROM User u WHERE u.seoUrl = :seoUrl", User.class);
+
+		seoUrl.setParameter("seoUrl", title);
+		
+		return seoUrl.uniqueResult();
 	}
 
 }
