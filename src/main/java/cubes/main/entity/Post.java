@@ -245,4 +245,20 @@ public class Post {
 		}
 	}
 
+	public List<Comment> getEnabledComments() {
+
+		List<Comment> enabledComments = new ArrayList<>();
+
+		if (this.comments != null) {
+			for (Comment comment : this.comments) {
+				if (comment.getIsEnabled()) {
+					enabledComments.add(comment);
+
+				}
+			}
+		}
+
+		return enabledComments;
+	}
+
 }

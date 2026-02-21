@@ -7,6 +7,8 @@ import cubes.main.entity.Slider;
 public interface SliderDAO {
 
 	public List<Slider> getSliders();
+	
+	public List<Slider> getEnabledSliders();
 
 	public void saveOrUpdateSlider(Slider slider);
 

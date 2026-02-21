@@ -52,7 +52,7 @@
                                  <div class="col-6">
                                     <div class="form-group">
                                        <label>Name</label>
-                                       <form:input path="name" cssClass="form-control" placeholder="Enter name" />
+                                       <form:input path="name" cssClass="form-control" placeholder="Enter name" required="required" />
                                        <form:errors path="name" cssClass="text-danger" />
                                     </div>
                                  </div>
@@ -66,12 +66,12 @@
                               </div>
                               <div class="form-group">
                                  <label>Email</label>
-                                 <form:input path="email" type="email" cssClass="form-control" placeholder="email@example.com" />
+                                 <form:input path="email" type="email" cssClass="form-control" placeholder="email@example.com" required="required" />
                                  <form:errors path="email" cssClass="text-danger" />
                               </div>
                               <div class="form-group">
                                  <label>Phone</label>
-                                 <form:input path="phone" cssClass="form-control" placeholder="Phone number" />
+                                 <form:input path="phone" type="tel" cssClass="form-control" placeholder="Phone number ex. (+381 60 123 456)" required="required" maxlength="20" />
                                  <form:errors path="phone" cssClass="text-danger" />
                               </div>
                            </div>
@@ -89,7 +89,7 @@
                                  <label>Username</label>
                                  <c:choose>
                                     <c:when test="${empty user.username}">
-                                       <form:input path="username" cssClass="form-control" />
+                                       <form:input path="username" cssClass="form-control" required="required" />
                                     </c:when>
                                     <c:otherwise>
                                        <form:input path="username" cssClass="form-control" readonly="true" />
@@ -104,7 +104,7 @@
                                  <c:choose>
 
                                     <c:when test="${empty user.username}">
-                                       <form:password path="password" cssClass="form-control" placeholder="Enter password" />
+                                       <form:password path="password" cssClass="form-control" placeholder="Enter password" required="required" />
                                        <form:errors path="password" cssClass="text-danger" />
                                     </c:when>
 

@@ -184,4 +184,11 @@ public class SliderServiceImpl implements SliderService {
 		sliderDAO.saveOrUpdateSlider(existingSlider);
 	}
 
+	@Override
+	@Transactional
+	public List<Slider> getEnabledSliders() {
+		
+		return sliderDAO.getEnabledSliders();
+	}
+
 }

@@ -14,7 +14,8 @@
       <jsp:include page="../fragments/header-nav-bar-front.jsp" />
    </header>
    <!-- Hero Section -->
-   <section style="background: url(img/hero.jpg); background-size: cover; background-position: center center" class="hero">
+   <section style="background: url(${pageContext.request.contextPath}/front-theme/img/hero.jpg); background-size: cover; background-position: center center"
+      class="hero">
       <div class="container">
          <div class="row">
             <div class="col-lg-12">
@@ -28,16 +29,27 @@
          <!-- Latest Posts -->
          <main class="col-lg-8">
             <div class="container">
-               <form action="#" class="commenting-form">
+               <c:if test="${not empty successMessage}">
+                  <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-bottom: 30px;">
+                     <strong>Success!</strong>
+                     ${successMessage}
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                        style="background: none; border: none; float: right; font-size: 1.5rem; line-height: 1;">
+                        <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+               </c:if>
+
+               <form action="${pageContext.request.contextPath}/contact-submit" method="post" class="commenting-form">
                   <div class="row">
                      <div class="form-group col-md-6">
-                        <input type="text" placeholder="Your Name" class="form-control">
+                        <input type="text" name="name" placeholder="Your Name" class="form-control" required>
                      </div>
                      <div class="form-group col-md-6">
-                        <input type="email" placeholder="Email Address (will not be published)" class="form-control">
+                        <input type="email" name="email" placeholder="Email Address (will not be published)" class="form-control" required>
                      </div>
                      <div class="form-group col-md-12">
-                        <textarea placeholder="Type your message" class="form-control" rows="20"></textarea>
+                        <textarea name="message" placeholder="Type your message" class="form-control" rows="20" required></textarea>
                      </div>
                      <div class="form-group col-md-12">
                         <button type="submit" class="btn btn-secondary">Submit Your Message</button>

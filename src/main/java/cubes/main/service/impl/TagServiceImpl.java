@@ -79,4 +79,10 @@ public class TagServiceImpl implements TagService {
 		return tagDAO.getTagByUrlSeo(text);
 	}
 
+	@Override
+	@Transactional
+	public List<Tag> getMostUsedTags() {
+		return tagDAO.getMostUsedTags();
+	}
+
 }

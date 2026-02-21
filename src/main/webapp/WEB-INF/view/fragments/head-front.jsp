@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Bootstrap Blog - B4 Template by Bootstrap Temple</title>
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/admin-theme/dist/img/blogger-logo.png">
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">

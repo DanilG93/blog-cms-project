@@ -58,11 +58,11 @@ public class PostServiceImpl implements PostService {
 	public Post getPostById(Integer id) {
 		return postDAO.getPostById(id);
 	}
-	
+
 	@Override
 	@Transactional
 	public Post getPostByUrlSeo(String title) {
-		
+
 		return postDAO.getPostByUrlSeo(title);
 	}
 
@@ -188,6 +188,30 @@ public class PostServiceImpl implements PostService {
 		post = generateSeoUrlForPost(post);
 		postDAO.saveOrUpdatePost(post);
 
+	}
+
+	@Override
+	@Transactional
+	public Post getPreviousPost(int currentPostId) {
+		return postDAO.getPreviousPost(currentPostId);
+	}
+
+	@Override
+	@Transactional
+	public Post getNextPost(int currentPostId) {
+		return postDAO.getNextPost(currentPostId);
+	}
+
+	@Override
+	@Transactional
+	public List<Post> getMostViewedPosts(int limit) {
+		List<Post> posts = postDAO.getMostViewedPosts(limit);
+		
+		for (Post post : posts) {
+			Hibernate.initialize(post.getComments());
+		}
+
+		return posts;
 	}
 
 	private void createPost(Post post, MultipartFile file, HttpServletRequest request, Principal principal) {

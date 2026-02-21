@@ -18,24 +18,24 @@
 
 <div class="widget latest-posts">
    <header>
-      <h3 class="h6">Latest Posts</h3>
+      <h3 class="h6">Most Popular Posts</h3>
    </header>
    <div class="blog-posts">
-      <c:forEach var="latest" items="${latestPosts}">
-         <a href="${pageContext.request.contextPath}/blog-post/${latest.seoUrl}">
+      <c:forEach var="post" items="${topViewedPosts}">
+         <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
             <div class="item d-flex align-items-center">
                <div class="image">
-                  <img src="${pageContext.request.contextPath}/uploads/posts/${latest.image}" alt="${latest.title}" class="img-fluid"
+                  <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}" alt="${post.title}" class="img-fluid"
                      onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';">
                </div>
                <div class="title">
-                  <strong>${latest.title}</strong>
+                  <strong>${post.title}</strong>
                   <div class="d-flex align-items-center">
                      <div class="views">
-                        <i class="icon-eye"></i> ${latest.viewCount}
+                        <i class="icon-eye"></i> ${post.viewCount}
                      </div>
                      <div class="comments">
-                        <i class="icon-comment"></i>${latest.comments.size()}</div>
+                        <i class="icon-comment"></i>${post.comments.size()}</div>
                   </div>
                </div>
             </div>

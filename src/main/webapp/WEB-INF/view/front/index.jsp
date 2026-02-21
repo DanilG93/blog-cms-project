@@ -3,6 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -23,7 +24,19 @@
                <div class="row">
                   <div class="col-lg-7">
                      <h1>${slider.title}</h1>
-                     <a href="${slider.buttonUrl}" class="hero-link">${slider.buttonText}</a>
+                     <c:set var="rawLink" value="${slider.buttonUrl}" />
+                     <c:choose>
+
+                        <c:when test="${fn:startsWith(rawLink, 'http://') or fn:startsWith(rawLink, 'https://')}">
+                           <a href="${rawLink}" class="hero-link" target="_blank">${slider.buttonText}</a>
+                        </c:when>
+
+                        <c:otherwise>
+                           <a href="${pageContext.request.contextPath}${fn:startsWith(rawLink, '/') ? '' : '/'}${rawLink}" class="hero-link">
+                              ${slider.buttonText} </a>
+                        </c:otherwise>
+
+                     </c:choose>
                   </div>
                </div>
             </div>
@@ -66,7 +79,14 @@
                            <div class="content">
                               <header class="post-header">
                                  <div class="category">
-                                    <a href="${pageContext.request.contextPath}/blog-category/${post.category.seoUrl}">${post.category.name}</a>
+                                    <c:choose>
+                                       <c:when test="${not empty post.category}">
+                                          <a href="${pageContext.request.contextPath}/blog-category/${post.category.seoUrl}"> ${post.category.name} </a>
+                                       </c:when>
+                                       <c:otherwise>
+                                          <span class="text-muted">Uncategorized</span>
+                                       </c:otherwise>
+                                    </c:choose>
                                  </div>
                                  <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
                                     <h2 class="h4">${post.title}</h2>
@@ -95,29 +115,36 @@
                         </div>
                      </div>
                      <div class="image col-lg-5">
-                       <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
-                        <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}"
-                           onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';"
-                           alt="${post.title}">
-                           </a>
+                        <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
+                           <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}"
+                              onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';"
+                              alt="${post.title}">
+                        </a>
                      </div>
 
                   </c:when>
 
                   <c:otherwise>
                      <div class="image col-lg-5">
-                       <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
-                        <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}"
-                           onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';"
-                           alt="${post.title}">
-                           </a>
+                        <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
+                           <img src="${pageContext.request.contextPath}/uploads/posts/${post.image}"
+                              onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/uploads/default/no_image_available.jpg';"
+                              alt="${post.title}">
+                        </a>
                      </div>
                      <div class="text col-lg-7">
                         <div class="text-inner d-flex align-items-center">
                            <div class="content">
                               <header class="post-header">
                                  <div class="category">
-                                    <a href="${pageContext.request.contextPath}/blog-category/${post.category.seoUrl}">${post.category.name}</a>
+                                    <c:choose>
+                                       <c:when test="${not empty post.category}">
+                                          <a href="${pageContext.request.contextPath}/blog-category/${post.category.seoUrl}"> ${post.category.name} </a>
+                                       </c:when>
+                                       <c:otherwise>
+                                          <span class="text-muted">Uncategorized</span>
+                                       </c:otherwise>
+                                    </c:choose>
                                  </div>
                                  <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
                                     <h2 class="h4">${post.title}</h2>
@@ -193,7 +220,14 @@
                            <fmt:formatDate value="${post.createdAtAsDate}" pattern="dd MMM | yyyy" />
                         </div>
                         <div class="category">
-                           <a href="${pageContext.request.contextPath}/blog-category/${post.category.seoUrl}">${post.category.name}</a>
+                           <c:choose>
+                              <c:when test="${not empty post.category}">
+                                 <a href="${pageContext.request.contextPath}/blog-category/${post.category.seoUrl}"> ${post.category.name} </a>
+                              </c:when>
+                              <c:otherwise>
+                                 <span class="text-muted">Uncategorized</span>
+                              </c:otherwise>
+                           </c:choose>
                         </div>
                      </div>
                      <a href="${pageContext.request.contextPath}/blog-post/${post.seoUrl}">
@@ -260,23 +294,5 @@
    </section>
    <!-- Page Footer-->
    <jsp:include page="../fragments/footer-front.jsp" />
-
-   <script>
-				$("#index-slider").owlCarousel({
-					"items" : 1,
-					"loop" : true,
-					"autoplay" : true,
-					"autoplayHoverPause" : true
-				});
-
-				$("#latest-posts-slider").owlCarousel({
-					"items" : 3,
-					"margin" : 30,
-					"loop" : true,
-					"autoplay" : true,
-					"autoplayHoverPause" : true,
-					"slideBy" : 'page'
-				});
-			</script>
 </body>
 </html>

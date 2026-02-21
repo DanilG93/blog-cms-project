@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.persistence.JoinColumn;
 
@@ -45,16 +46,16 @@ public class User {
 	@Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
 	private String name;
 
-	@Column(nullable = false, length = 50)
-	@NotBlank(message = "Surname is required")
-	@Size(min = 2, max = 50, message = "Surname must be between 2 and 50 characters")
+	@Column(length = 50)
+	@Size(max = 50, message = "Surname must have max 50 characters")
 	private String surname;
 
 	@Column(nullable = false, length = 20)
 	@NotBlank(message = "Phone number is required")
-	@Size(min = 6, max = 20, message = "Phone number format is not valid")
+	@Size(min = 6, max = 20, message = "Phone number must be between 6 and 20 characters")
+	@Pattern(regexp = "^\\+?[0-9\\s\\-]+$", message = "Phone number format is not valid (only digits, spaces, +, and - are allowed)")
 	private String phone;
-	
+
 	@Column(name = "seo_url", nullable = false, unique = true)
 	private String seoUrl;
 
@@ -124,7 +125,6 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
 
 	public String getSeoUrl() {
 		return seoUrl;

@@ -37,9 +37,8 @@ public class MyUtil {
                 dir.mkdirs();
             }
 
-            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            String fileName = file.getOriginalFilename();
             File destination = new File(realPath + File.separator + fileName);
-            System.out.println("Fizička putanja slike: " + destination.getAbsolutePath());
             file.transferTo(destination);
 
             return fileName;

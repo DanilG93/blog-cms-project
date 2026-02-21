@@ -8,15 +8,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cubes.main.dto.PostSearch;
 import cubes.main.entity.Category;
+import cubes.main.entity.Comment;
 import cubes.main.entity.Post;
 import cubes.main.entity.Tag;
 import cubes.main.entity.User;
 import cubes.main.service.CategoryService;
+import cubes.main.service.CommentService;
 import cubes.main.service.PostService;
 import cubes.main.service.TagService;
 import cubes.main.service.UserService;
@@ -34,6 +38,8 @@ public class BlogController {
 	private PostService postService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CommentService commentService;
 
 	@GetMapping("/blog")
 	public String showBlogPage(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
@@ -63,9 +69,14 @@ public class BlogController {
 			return "front/blog-post";
 		}
 
+		Post previousPost = postService.getPreviousPost(post.getId());
+		Post nextPost = postService.getNextPost(post.getId());
+
 		post.setViewCount(post.getViewCount() + 1);
 		postService.saveOrUpdatePost(post);
 
+		model.addAttribute("previousPost", previousPost);
+		model.addAttribute("nextPost", nextPost);
 		model.addAttribute("post", post);
 
 		return "front/blog-post";
@@ -204,13 +215,22 @@ public class BlogController {
 		return "front/blog-tag";
 	}
 
-	@ModelAttribute
-	public void addCommonAttributes(Model model) {
+	@PostMapping("/add-comment")
+	public String addComment(@ModelAttribute Comment comment, @RequestParam int postId, @RequestParam String seoUrl,
+			RedirectAttributes redirectAttributes) {
 
-		model.addAttribute("categories", categoryService.getCategories());
-		model.addAttribute("latestPosts", postService.getRecentPosts(3));
-		model.addAttribute("tags", tagService.getTags());
-		model.addAttribute("firstThreeImportantPosts", postService.getImportantPosts(3));
+		Post post = postService.getPostById(postId);
+
+		comment.setPost(post);
+		comment.setIsEnabled(false);
+		comment.setIsRead(false);
+
+		commentService.saveOrUpdateComment(comment);
+
+		redirectAttributes.addFlashAttribute("successMessage",
+				"Your comment has been successfully submitted and is awaiting approval.");
+
+		return "redirect:/blog-post/" + seoUrl;
 	}
 
 }

@@ -24,8 +24,16 @@ public class SliderDAOImpl implements SliderDAO {
 	@Override
 	public List<Slider> getSliders() {
 
-		List<Slider> sliderList = sessionFactory.getCurrentSession().createQuery("from Slider order by displayOrder", Slider.class)
-				.getResultList();
+		List<Slider> sliderList = sessionFactory.getCurrentSession()
+				.createQuery("from Slider order by displayOrder", Slider.class).getResultList();
+
+		return sliderList;
+	}
+
+	@Override
+	public List<Slider> getEnabledSliders() {
+		List<Slider> sliderList = sessionFactory.getCurrentSession()
+				.createQuery("from Slider where enabled = true order by displayOrder", Slider.class).getResultList();
 
 		return sliderList;
 	}

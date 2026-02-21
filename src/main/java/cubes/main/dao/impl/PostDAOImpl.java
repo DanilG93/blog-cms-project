@@ -1,5 +1,6 @@
 package cubes.main.dao.impl;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,6 @@ public class PostDAOImpl implements PostDAO {
 		"SELECT DISTINCT p FROM Post p " +
 		"LEFT JOIN FETCH p.user " +
 		"LEFT JOIN FETCH p.category " +
-//		"LEFT JOIN FETCH p.comments " +
 		"WHERE p.enabled = true " + 
 		"ORDER BY p.createdAt DESC";
 
@@ -153,7 +153,7 @@ public class PostDAOImpl implements PostDAO {
 	private void buildSearchCriteria(StringBuilder hql, Map<String, Object> params, PostSearch search) {
 
 		if (search.getText() != null && !search.getText().isEmpty()) {
-			hql.append(" AND (p.title LIKE :term OR p.description LIKE :term OR p.content LIKE :term)");
+			hql.append(" AND (p.title LIKE :term OR p.description LIKE :term)");
 			params.put("term", "%" + search.getText() + "%");
 		}
 
@@ -229,7 +229,6 @@ public class PostDAOImpl implements PostDAO {
 	    String hql = "SELECT DISTINCT p FROM Post p " 
 	               + "LEFT JOIN FETCH p.user " 
 	               + "LEFT JOIN FETCH p.category " 
-//	               + "LEFT JOIN FETCH p.comments " 
 	               + "WHERE p.enabled = true " 
 	               + "ORDER BY p.createdAt DESC";
 
@@ -245,8 +244,7 @@ public class PostDAOImpl implements PostDAO {
 
 		String hql = "SELECT DISTINCT p FROM Post p " 
 				+ "JOIN FETCH p.user "
-				+ "JOIN FETCH p.category "
-//				+ "LEFT JOIN FETCH p.comments " 
+				+ "LEFT JOIN FETCH p.category "
 				+ "WHERE p.enabled = :enabled " 
 				+ "AND p.important = :important "
 				+ "ORDER BY p.createdAt DESC";
@@ -260,6 +258,47 @@ public class PostDAOImpl implements PostDAO {
 
 		query.setMaxResults(limit);
 
+		return query.getResultList();
+	}
+
+	@Override
+	public Post getPreviousPost(int currentPostId) {
+		Session session = sessionFactory.getCurrentSession();
+	  
+	    Query<Post> query = session.createQuery("FROM Post p WHERE p.id < :id AND p.enabled = true ORDER BY p.id DESC", Post.class);
+	    query.setParameter("id", currentPostId);
+	    query.setMaxResults(1);
+	    
+	 
+	    return query.uniqueResultOptional().orElse(null);
+	}
+
+	@Override
+	public Post getNextPost(int currentPostId) {
+		Session session = sessionFactory.getCurrentSession();
+	    
+	    Query<Post> query = session.createQuery("FROM Post p WHERE p.id > :id AND p.enabled = true ORDER BY p.id ASC", Post.class);
+	    query.setParameter("id", currentPostId);
+	    query.setMaxResults(1);
+	    
+	    return query.uniqueResultOptional().orElse(null);
+	}
+
+	@Override
+	public List<Post> getMostViewedPosts(int limit) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		LocalDateTime aMonthAgo = LocalDateTime.now().minusDays(30);
+		
+		Query<Post> query = session.createQuery(
+				"SELECT p FROM Post p "
+				+ "LEFT JOIN FETCH p.category "
+				+ "WHERE p.enabled = true "
+				+ "AND p.createdAt >= :startDate "
+				+ "ORDER BY p.viewCount DESC", Post.class);
+		
+		query.setParameter("startDate", aMonthAgo).setMaxResults(limit);
+		
 		return query.getResultList();
 	}
 

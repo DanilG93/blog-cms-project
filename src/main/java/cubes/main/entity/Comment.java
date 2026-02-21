@@ -1,7 +1,8 @@
 package cubes.main.entity;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -122,13 +123,12 @@ public class Comment {
 		this.post = post;
 	}
 
-	public String getDateFormatted() {
-		if (this.createdAt == null)
-			return "";
+	public Date getCreatedAtAsDate() {
+		if (this.createdAt == null) {
+			return null;
+		}
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM yyyy");
-
-		return this.createdAt.format(formatter);
+		return Date.from(this.createdAt.atZone(ZoneId.systemDefault()).toInstant());
 	}
 
 }

@@ -181,8 +181,19 @@
                                        <td class="align-middle">
                                           <button type="button" class="btn btn-block btn-outline-secondary disabled">${slider.buttonText}</button>
                                        </td>
-                                       <td class="align-middle">${slider.buttonUrl}</td>
-
+                                       
+                                       <td class="align-middle">
+                                          <c:set var="rawLink" value="${slider.buttonUrl}" />
+                                          <c:choose>
+                                             <c:when test="${fn:startsWith(rawLink, 'http://') or fn:startsWith(rawLink, 'https://')}">
+                                                <a href="${rawLink}" target="_blank">${rawLink}</a>
+                                             </c:when>
+                                             <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}${fn:startsWith(rawLink, '/') ? '' : '/'}${rawLink}" target="_blank">
+                                                   ${rawLink} </a>
+                                             </c:otherwise>
+                                          </c:choose>
+                                       </td>
 
                                        <td class="align-middle">
                                           <div class="custom-control custom-switch">

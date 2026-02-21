@@ -46,7 +46,9 @@
 
 
 
-
+                     <%
+                     pageContext.setAttribute("newLine", "\n");
+                     %>
 
                      <div class="timeline ">
 
@@ -71,7 +73,11 @@
                                     </c:if>
                                  </h3>
 
-                                 <div class="timeline-body">${contactMessage.message}</div>
+                                 <div class="timeline-body">
+                                    <c:out value="${fn:replace(contactMessage.message, newLine, '<br/>')}" escapeXml="false" />
+                                 </div>
+
+
                                  <div class="timeline-footer">
 
 

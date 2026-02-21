@@ -7,6 +7,8 @@ import cubes.main.entity.Tag;
 public interface TagService {
 
 	public List<Tag> getTags();
+	
+	public List<Tag> getMostUsedTags();
 
 	public void saveOrUpdateTag(Tag tag);
 

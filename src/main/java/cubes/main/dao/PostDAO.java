@@ -26,11 +26,17 @@ public interface PostDAO {
 	public Post getPostByUrlSeo(String title);
 
 	public long getEnabledPostCount();
-	
+
 	public Long getPostCount();
 
 	public List<Post> getRecentPosts(int limit);
 
 	public List<Post> getImportantPosts(int limit);
+	
+	public List<Post> getMostViewedPosts(int limit);
+
+	Post getPreviousPost(int currentPostId);
+
+	Post getNextPost(int currentPostId);
 
 }

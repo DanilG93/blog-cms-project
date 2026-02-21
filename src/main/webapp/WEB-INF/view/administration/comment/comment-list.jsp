@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,19 +84,33 @@
                               <div class="card card-outline ${comment.isEnabled ? 'card-primary' : 'card-secondary'}">
 
                                  <div class="card-header">
-                                    <strong class="card-title"> <strong>${comment.name}</strong> left a comment on the post: <strong>${comment.post.title}</strong>
-                                       <small style="color: gray; margin-left: 10px;"> (${comment.dateFormatted}) </small>
+                                    <strong class="card-title">
+                                       <strong>${comment.name}</strong>
+                                       left a comment on the post:
+                                       <strong>${comment.post.title}</strong>
+                                       <small style="color: gray; margin-left: 10px;">
+                                          <fmt:formatDate value="${comment.createdAtAsDate}" pattern="(MMM yyyy)" />
+                                       </small>
+
+
                                     </strong>
                                     <c:if test="${!comment.isRead}">
                                        <span class="right badge badge-danger fading-badge">New</span>
                                     </c:if>
                                  </div>
 
+
+                                 <%
+                                 pageContext.setAttribute("newLine", "\n");
+                                 %>
                                  <div class="card-body d-flex align-items-center">
 
                                     <div>
-                                       <p class="mb-0">${comment.content}</p>
-                                       <small class="text-muted">Email: ${comment.email}</small>
+                                       <c:out value="${fn:replace(comment.content, newLine, '<br/>')}" escapeXml="false" />
+                                       <small class="text-muted d-block mt-1">
+                                          <strong>Email:</strong>
+                                          ${comment.email}
+                                       </small>
                                     </div>
 
                                     <div class="custom-control custom-switch ml-auto pl-3">

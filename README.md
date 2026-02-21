@@ -1,37 +1,54 @@
-# Blog CMS Platform - Capstone Project
+# 🖋️ Java Blog CMS Platform - Full-Stack Project
 
-This project is a comprehensive **Blog Content Management System (CMS)** developed as a final project for the Java Web Development course at **[Cubes School](https://cubes.edu.rs/)** (Belgrade, Serbia).
+This is a professional **Content Management System (CMS)** designed for multi-author blog environments. Developed as a final project for the Java Web Development course at **Cubes School**, this application provides a robust backend for content creators and a dynamic, SEO-optimized frontend for readers.
 
-The application is designed for a team of content writers, providing a robust administrative backend to manage posts, categories, tags, and user interactions.
+## 🚀 Project Status: COMPLETED
+The project is fully functional, meeting all client specifications, including secure administration, content management, and an interactive user interface.
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack & Configuration
 - **Language:** Java 11
 - **Framework:** Spring MVC (Spring 5.x)
-- **Persistence:** Hibernate (JPA)
-- **Security:** Spring Security (JDBC-based authentication)
+- **Configuration:** XML-based setup (`web.xml`, `spring-servlet.xml`)
+- **Persistence:** Hibernate 5 (JPA)
+- **Security:** Spring Security (JDBC Authentication with BCrypt)
 - **Database:** MySQL
 - **Template Engine:** JSP (JavaServer Pages) & JSTL
-- **Frontend Admin Theme:** AdminLTE 3
-- **File Handling:** Commons-fileupload for image management
+- **Admin Theme:** AdminLTE 3
+- **Server:** Apache Tomcat 9
 
-## 🚀 Key Features (Implemented)
-- **Post Administration:** Complete CRUD for blog posts with integrated image uploads and tag management.
-- **Category & Tag System:** Hierarchical organization of content with SEO-friendly URL logic.
-- **Role-Based Access Control (RBAC):** Secured routes for Admin and Editor roles using Spring Security.
-- **Interactive Modules:** - Comment moderation system (approve/delete).
-    - Contact message management with unread counters.
-- **UI/UX Enhancements:** Dynamic sidebar notifications (unread badges) and slider management for the homepage.
+## 🌟 Key Features
 
-## 💡 Engineering Highlights
-During development, I focused on solving common enterprise-level challenges:
-- **Hibernate Session Management:** Resolved `TransientObjectException` by ensuring proper entity state management before persistence.
-- **Data Integrity:** Fixed issues related to Many-to-Many mapping and NULL value overwrites during updates.
-- **Custom Conversion:** Implemented `@InitBinder` in controllers for seamless String-to-Object conversion (Tags).
+### 1. Administration & Security
+- **Blogger Management:** Admin capability to create, edit, or ban users (blocking login access).
+- **My Account:** Authors can update their personal information (name, phone, photo) and change passwords securely.
+- **Login:** Secured with Spring Security and BCrypt password encryption.
 
-## 🏁 Future Roadmap
-- [ ] User Profile Management & Password Change.
-- [ ] Public-facing Web Application (Frontend list and details).
-- [ ] Advanced search and filtering via REST or Spring MVC.
+### 2. Homepage & Slider Management
+- **Dynamic Sliders:** Full CRUD for sliders (Image, Title, Button Text, URL). Supports both internal and external links.
+- **Visibility Control:** Ability to disable/enable sliders and set their display order.
+- **Intro Posts:** Automatic display of the 3 latest "Important" marked posts on the index page.
 
----
-*Developed by Danilo Gomanjuk as part of the Cubes School Java Full-Stack curriculum.*
+### 3. Blog & Content Engine
+- **Post Management:** Advanced CRUD with image uploads, SEO-friendly slug generation, and multiple tag association.
+- **Search:** Global search functionality (Title, Description, and Content).
+- **Pagination:** Clean post listing with 12 items per page.
+- **Sidebar Widgets:** - Top 3 most visited posts from the last 30 days.
+    - Category list with dynamic post counters, sorted by manual order.
+    - Tag cloud sorted by usage frequency.
+
+### 4. Interactions
+- **Comment System:** Moderation panel to enable/disable visitor comments.
+- **Contact Messages:** Contact form with an "Unread" notification badge system in the admin sidebar.
+
+## 🧠 Engineering Highlights
+- **Legacy XML Mastery:** Fully configured application context and servlet mapping via `web.xml` and `spring-servlet.xml`.
+- **N+1 Problem Optimization:** Used `LEFT JOIN FETCH` in HQL to optimize database performance and reduce query overhead.
+- **SEO Friendly Architecture:** Implemented logic for unique, URL-safe slugs for posts, categories, and authors.
+- **Database Automation:** Utilized Hibernate's `import.sql` for automated initial data population.
+
+## 📦 How to Run & Initial Setup
+
+1. **Manual Database Creation:**
+   Create a database in MySQL:
+   ```sql
+   CREATE DATABASE blog_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -79,4 +79,13 @@ public class TagDAOImpl implements TagDAO {
 		return query.uniqueResult();
 	}
 
+	@Override
+	public List<Tag> getMostUsedTags() {
+		Session session = sessionFactory.getCurrentSession();
+
+		String hql = "SELECT t FROM Tag t LEFT JOIN t.posts p GROUP BY t.id ORDER BY COUNT(p) DESC";
+
+		return session.createQuery(hql, Tag.class).getResultList();
+	}
+
 }

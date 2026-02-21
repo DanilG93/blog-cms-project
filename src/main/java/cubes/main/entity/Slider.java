@@ -17,8 +17,8 @@ public class Slider {
 	@Column
 	private Integer id;
 	
-	@Column(nullable = false, length = 100)
-    @NotBlank
+	@Column(nullable = false, length = 255)
+	@NotBlank
 	private String title;
 	
 	@Column(nullable = false)
@@ -27,12 +27,10 @@ public class Slider {
 	
 	
     
-	@Column(name = "button_text", nullable = false, length = 30)
-	@NotBlank
+	@Column(name = "button_text", length = 100)
 	private String buttonText;
 	
-	@Column(name = "button_url", nullable = false, length = 255)
-	@NotBlank
+	@Column(name = "button_url", length = 255)
 	private String buttonUrl;
 	
 	@Column(name = "display_order", nullable = false)

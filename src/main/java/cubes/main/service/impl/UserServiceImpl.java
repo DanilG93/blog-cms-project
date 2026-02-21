@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			updateUser(user, tempUser, roles, file, request);
 		}
+
 	}
 
 	private void createUser(User user, List<String> roles, MultipartFile file, HttpServletRequest request) {
@@ -98,7 +99,6 @@ public class UserServiceImpl implements UserService {
 		if (file != null && !file.isEmpty()) {
 			user.setImage(MyUtil.saveImage(file, "users", request));
 		}
-
 		user = generateSeoUrlForPost(user);
 		userDAO.saveOrUpdateUser(user);
 	}
@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 		if (file != null && !file.isEmpty()) {
 			existingUser.setImage(MyUtil.saveImage(file, "users", request));
 		}
-
+		existingUser = generateSeoUrlForPost(existingUser);
 		userDAO.saveOrUpdateUser(existingUser);
 	}
 
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 			String fileName = MyUtil.saveImage(file, "users", request);
 			existingUser.setImage(fileName);
 		}
-
+		existingUser = generateSeoUrlForPost(existingUser);
 		userDAO.saveOrUpdateUser(existingUser);
 
 	}
@@ -183,16 +183,23 @@ public class UserServiceImpl implements UserService {
 
 	private User generateSeoUrlForPost(User user) {
 
-		String baseSeoUrl = MyUtil.generateSeoUrl(user.getName());
+		String fullName = user.getName().trim();
+
+		if (user.getSurname() != null && !user.getSurname().trim().isEmpty()) {
+			fullName += " " + user.getSurname().trim();
+		}
+
+		String baseSeoUrl = MyUtil.generateSeoUrl(fullName);
 		String finalSeoUrl = baseSeoUrl;
 		int counter = 1;
 
 		while (userDAO.getUserByUrlSeo(finalSeoUrl) != null) {
-			User existingSeoUrl = userDAO.getUserByUrlSeo(finalSeoUrl);
+			User existingUser = userDAO.getUserByUrlSeo(finalSeoUrl);
 
-			if (user.getUsername() != null && user.getUsername().equals(existingSeoUrl.getUsername())) {
+			if (user.getUsername() != null && user.getUsername().equals(existingUser.getUsername())) {
 				break;
 			}
+
 			finalSeoUrl = baseSeoUrl + "-" + (counter++);
 		}
 

@@ -76,3 +76,20 @@ h1, h2, h3, h4, p, a, strong {
 	line-height: 1.4em;
 	height: 4.2em;
 }
+
+.posts-nav .prev-post, .posts-nav .next-post {
+	max-width: 50%;
+	min-width: 0;
+}
+
+.posts-nav .text {
+	min-width: 0;
+	flex: 1;
+}
+
+.posts-nav .text h6 {
+	white-space: nowrap !important;
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	margin: 0;
+}

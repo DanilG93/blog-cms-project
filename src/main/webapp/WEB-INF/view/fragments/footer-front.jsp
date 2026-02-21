@@ -45,9 +45,23 @@
                   <li>
                      <a href="${pageContext.request.contextPath}/contact">Contact</a>
                   </li>
-                  <li>
-                     <a href="${pageContext.request.contextPath}/login">Login</a>
-                  </li>
+                  <c:if test="${empty pageContext.request.userPrincipal}">
+                     <li>
+                        <a href="${pageContext.request.contextPath}/login">Login</a>
+                     </li>
+                  </c:if>
+
+                  <c:if test="${not empty pageContext.request.userPrincipal}">
+
+                     <li>
+                        <a href="${pageContext.request.contextPath}/administration">Admin Panel</a>
+                     </li>
+                     <li>
+                        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+                     </li>
+
+                  </c:if>
+
                </ul>
                <ul class="list-unstyled">
                   <c:forEach var="category" items="${categories}" begin="0" end="3">
@@ -112,3 +126,21 @@
 
 
 <script src="${pageContext.request.contextPath}/front-theme/plugins/owl-carousel2/owl.carousel.min.js"></script>
+
+<script>
+	$("#index-slider").owlCarousel({
+		"items" : 1,
+		"loop" : true,
+		"autoplay" : true,
+		"autoplayHoverPause" : true
+	});
+
+	$("#latest-posts-slider").owlCarousel({
+		"items" : 3,
+		"margin" : 30,
+		"loop" : true,
+		"autoplay" : true,
+		"autoplayHoverPause" : true,
+		"slideBy" : 'page'
+	});
+</script>

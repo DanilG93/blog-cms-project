@@ -30,7 +30,7 @@ public class AdministrationController {
 
 	@GetMapping("")
 	public String getOverviewPage(Model model) {
-
+		
 		model.addAttribute("postCount", postService.getPostCount());
 		model.addAttribute("categoryCount", categoryService.getCategoryCount());
 		model.addAttribute("tagCount", tagService.getTagCount());

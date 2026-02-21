@@ -12,6 +12,8 @@ public interface SliderService {
 
 	public List<Slider> getSliders();
 
+	public List<Slider> getEnabledSliders();
+
 	public void saveOrUpdateSlider(Slider slider);
 
 	public Slider getSliderById(Integer id);

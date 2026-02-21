@@ -165,6 +165,11 @@
                                        <td class="align-middle">
 
                                           <div class="btn-group">
+                                             <a href="${pageContext.request.contextPath}/blog-category/${category.seoUrl}" class="btn btn-info" target="_blank"
+                                                title="View on Site">
+                                                <i class="fas fa-eye"></i>
+                                             </a>
+
                                              <a href="${pageContext.request.contextPath}/administration/categories/edit/${category.id}" class="btn btn-info">
                                                 <i class="fas fa-edit"></i>
                                              </a>
